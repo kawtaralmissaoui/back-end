@@ -8,4 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 class Bien extends Model
 {
     use HasFactory;
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+    public function location()
+    {
+        return $this->belongsTo(Location::class);
+    }
 }
