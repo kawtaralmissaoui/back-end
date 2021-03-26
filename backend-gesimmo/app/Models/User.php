@@ -11,6 +11,18 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
 class User extends Authenticatable implements JWTSubject
 {
     use HasFactory, Notifiable;
+    public function documents()
+    {
+        return $this->morphMany(Document::class, 'docable');
+    }
+    public function locations()
+    {
+        return $this->hasMany(Location::class);
+    }
+    public function biens()
+    {
+        return $this->hasMany(Bien::class);
+    }
 
     /**
      * The attributes that are mass assignable.
