@@ -18,14 +18,11 @@ class AuthController extends Controller
     {
 
         $user = new User();
-        $user->name = $request->name;
+        $user->nom = $request->nom;
         $user->email = $request->email;
-        $user->type_user = $request->type_user;
+        $user->role = $request->role;
         $user->password = bcrypt($request->password);
         $user->save();
-        /* if ($this->loginAfterSignUp) {
-            return $this->login($request);
-        }*/
         return response()->json([
             'message' => 'user successfully registed',
             'user' => $user
@@ -39,7 +36,6 @@ class AuthController extends Controller
     public function login()
     {
         $credentials = request(['email', 'password']);
-        //, 'type_user' => 'gestionnaire'
         if (!$token = Auth::attempt($credentials)) {
             return response()->json(['error' => 'Email ou mot de passe est incorrect'], 401);
         }
