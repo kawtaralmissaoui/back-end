@@ -14,7 +14,7 @@ class AuthController extends Controller
     {
         $this->middleware('auth:api', ['except' => ['login', 'register', 'logout']]);
     }
-    public function register(RegistrationFormRequest $request)
+    public function  register(RegistrationFormRequest $request)
     {
         $user = new User();
         $user->nom = $request->nom;
