@@ -16,11 +16,13 @@ class AuthController extends Controller
     }
     public function register(RegistrationFormRequest $request)
     {
-
         $user = new User();
         $user->nom = $request->nom;
+        $user->prenom = $request->prenom;
         $user->email = $request->email;
+        $user->CIN = $request->CIN;
         $user->role = $request->role;
+        $user->adresse = $request->adresse;
         $user->password = bcrypt($request->password);
         $user->save();
         return response()->json([
