@@ -13,11 +13,13 @@ class LocphController extends Controller
     public function  addLocP(RegistrationFormRequest $request)
     {
         $user = new User();
+        $user->civilite = $request->civilite;
         $user->nom = $request->nom;
         $user->prenom = $request->prenom;
         $user->email = $request->email;
+        $user->telephone = $request->telephone;
         $user->CIN = $request->CIN;
-        $user->role = $request->role;
+        $user->role = 'locataire';
         $user->adresse = $request->adresse;
         $user->password = bcrypt($request->password);
         //$user->image = $request->image->store('public');

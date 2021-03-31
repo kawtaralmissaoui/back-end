@@ -22,7 +22,7 @@ class SocieteController extends Controller
         $user->statut_societe = $request->statut_societe;
         $user->email = $request->email;
         $user->CIN = $request->CIN;
-        $user->role = $request->role;
+        $user->role = 'proprietaire';
         $user->adresse = $request->adresse;
         $user->telephone = $request->telephone;
         $user->archive = $request->archive;

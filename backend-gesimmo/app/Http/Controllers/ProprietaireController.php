@@ -18,7 +18,7 @@ class ProprietaireController extends Controller
         $user->prenom = $request->prenom;
         $user->email = $request->email;
         $user->CIN = $request->CIN;
-        $user->role = $request->role;
+        $user->role = 'proprietaire';
         $user->adresse = $request->adresse;
         $user->telephone = $request->telephone;
         $user->archive = $request->archive;

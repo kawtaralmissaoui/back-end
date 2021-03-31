@@ -17,7 +17,7 @@ class ChargeController extends Controller
         //$Facture->etat_paiement = $request->etat_paiement ;
         $Facture->type = $request->type ;
         //$Facture->statut = $request->statut ;
-        $Facture->loyer_mensuel = $request->loyer_mensuel;
+        //$Facture->loyer_mensuel = $request->loyer_mensuel;
         //$Facture->syndic = $request->syndic;
         //$Facture->taxe = $request->taxe;
         $Facture->reparation = $request->reparation;
