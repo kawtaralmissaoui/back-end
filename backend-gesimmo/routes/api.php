@@ -22,5 +22,21 @@ Route::group([
     Route::post('addLocM', 'App\Http\Controllers\LocmoController@addLocM');
     Route::post('addCharge', 'App\Http\Controllers\ChargeController@addCharge');
     Route::post('addPaiement', 'App\Http\Controllers\PaiementController@addPaiement');
+    Route::get('getLocPhyActif', 'App\Http\Controllers\LocphController@getLocPhyActif');
+    Route::get('getLocPhyArchive', 'App\Http\Controllers\LocphController@getLocPhyArchive');
+    Route::get('getProPhyActif', 'App\Http\Controllers\ProprietaireController@getProPhyActif');
+    Route::get('getProPhyArchive', 'App\Http\Controllers\ProprietaireController@getProPhyArchive');
+    Route::get('getBienActif', 'App\Http\Controllers\BienController@getBienActif');
+    Route::get('getBienArchive', 'App\Http\Controllers\BienController@getBienArchive');
+    Route::get('getLocationActif', 'App\Http\Controllers\LocationController@getLocationActif');
+    Route::get('getLocationArchive', 'App\Http\Controllers\LocationController@getLocationArchive');
+    Route::get('getChargeActif', 'App\Http\Controllers\ChargeController@getChargeActif');
+    Route::get('getChargeArchive', 'App\Http\Controllers\ChargeController@getChargeArchive');
+
+
+
+
+
+
 
 });

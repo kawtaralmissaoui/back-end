@@ -30,7 +30,7 @@ class BienRequest extends FormRequest
             'loyer_mensuel' => 'required',
             'syndic' => 'required',
             'taxe_habitation' => 'required',
-            'archive' => 'required|string',
+            //'archive' => 'required|string',
             'nbr_piece' => 'required|integer',
             'equipement' => 'required|boolean',
             'ascenseur' => 'required|boolean',

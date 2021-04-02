@@ -8,7 +8,7 @@ class LocphController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => ['addLocP', 'register', 'logout']]);
+        //$this->middleware('auth:api', ['except' => ['addLocP', 'register', 'logout']]);
     }
     public function  addLocP(RegistrationFormRequest $request)
     {
@@ -28,5 +28,14 @@ class LocphController extends Controller
             'message' => 'locataire successfully registed',
             'user' => $user
         ], 201);
+    }
+
+    public function getLocPhyActif()
+    {
+        return  User::all()->where('role', '=', 'locataire')->where('archive', '=', '0');
+    }
+    public function getLocPhyArchive()
+    {
+        return  User::all()->where('role', '=', 'locataire')->where('archive', '=', '1');
     }
 }

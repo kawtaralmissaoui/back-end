@@ -8,7 +8,7 @@ class ProprietaireController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => ['AddProprietaire', 'register', 'logout']]);
+        //$this->middleware('auth:api', ['except' => ['AddProprietaire', 'register', 'logout']]);
     }
     public function  AddProprietaire(RegistrationFormRequest $request)
     {
@@ -28,5 +28,13 @@ class ProprietaireController extends Controller
             'message' => 'proprietaire successfully registed',
             'user' => $user
         ], 201);
+    }
+    public function getProPhyActif()
+    {
+        return  User::all()->where('role', '=', 'proprietaire')->where('archive', '=', '0');
+    }
+    public function getProPhyArchive()
+    {
+        return  User::all()->where('role', '=', 'proprietaire')->where('archive', '=', '1');
     }
 }

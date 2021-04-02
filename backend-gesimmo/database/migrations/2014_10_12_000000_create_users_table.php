@@ -27,9 +27,11 @@ class CreateUsersTable extends Migration
             $table->boolean('archive');
             $table->string('password');
             $table->string('nom_responsable');
+            $table->string('prenom_responsable');
             $table->string('nom_societe');
             $table->string('patente');
             $table->string('statut_societe');
+            $table->mediumText('image');
             $table->rememberToken();
             $table->timestamps();
         });

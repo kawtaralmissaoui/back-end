@@ -15,7 +15,7 @@ class LocmoController extends Controller
         $user = new User();
         $user->patente = $request->patente;
         $user->nom_responsable = $request->nom_responsable;
-        //$user->prenom_responsable = $request->prenom_responsable;
+        $user->prenom_responsable = $request->prenom_responsable;
         $user->nom_societe = $request->nom_societe;
         $user->statut_societe = $request->statut_societe;
         $user->email = $request->email;

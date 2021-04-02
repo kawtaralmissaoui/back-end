@@ -8,7 +8,7 @@ class ChargeController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => ['addCharge', 'register', 'logout']]);
+        //$this->middleware('auth:api', ['except' => ['addCharge', 'register', 'logout']]);
     }
     public function  addCharge(FactureRequest $request)
     {
@@ -29,5 +29,14 @@ class ChargeController extends Controller
             'message' => 'Facture  successfully registed',
             'Facture ' => $Facture
         ], 201);
+    }
+
+    public function getChargeActif()
+    {
+        return  Facture::all()->where('syndic', '=', 'NULL');
+    }
+    public function getChargeArchive()
+    {
+        return  Facture::all()->where('archive', '=', '1');
     }
 }

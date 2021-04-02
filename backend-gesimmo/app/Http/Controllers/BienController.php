@@ -8,7 +8,7 @@ class BienController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => ['AddBien', 'register', 'logout']]);
+        //$this->middleware('auth:api', ['except' => ['AddBien', 'register', 'logout']]);
     }
     public function  AddBien(BienRequest $request)
     {
@@ -30,5 +30,13 @@ class BienController extends Controller
             'message' => 'bien successfully registed',
             'user' => $bien
         ], 201);
+    }
+    public function getBienActif()
+    {
+        return  Bien::all()->where('archive', '=', '0');
+    }
+    public function getBienArchive()
+    {
+        return  Bien::all()->where('archive', '=', '1');
     }
 }

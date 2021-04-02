@@ -8,7 +8,7 @@ class LocationController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => ['addLocation', 'register', 'logout']]);
+        //$this->middleware('auth:api', ['except' => ['addLocation', 'register', 'logout']]);
     }
     public function  addLocation(LocationRequest $request)
     {
@@ -25,5 +25,13 @@ class LocationController extends Controller
             'message' => 'location successfully registed',
             'location' => $Location
         ], 201);
+    }
+    public function getLocationActif()
+    {
+        return  Location::all()->where('archive', '=', '0');
+    }
+    public function getLocationArchive()
+    {
+        return  Location::all()->where('archive', '=', '1');
     }
 }
