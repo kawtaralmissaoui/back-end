@@ -16,7 +16,7 @@ class BienController extends Controller
         $bien->identifiant = $request->identifiant;
         $bien->adresse = $request->adresse;
         $bien->surface = $request->surface;
-        $bien->statut = $request->statut;
+        $bien->statut = 'libre';
         $bien->loyer_mensuel = $request->loyer_mensuel;
         $bien->syndic = $request->syndic;
         $bien->taxe_habitation = $request->taxe_habitation;
@@ -39,5 +39,9 @@ class BienController extends Controller
     public function getBienArchive()
     {
         return  Bien::all()->where('archive', '=', '1');
+    }
+    public function countbien()
+    {
+        return  Bien::all()->count();
     }
 }

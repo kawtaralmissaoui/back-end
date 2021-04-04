@@ -33,8 +33,10 @@ Route::group([
     Route::get('getChargeActif', 'App\Http\Controllers\ChargeController@getChargeActif');
     Route::get('getChargeArchive', 'App\Http\Controllers\ChargeController@getChargeArchive');
     Route::post('uploadimage', 'App\Http\Controllers\ProprietaireController@uploadimage');
-
-
+    Route::get('countlocation', 'App\Http\Controllers\LocationController@countlocation');
+    Route::get('countbien', 'App\Http\Controllers\BienController@countbien');
+    Route::get('counlocataire', 'App\Http\Controllers\LocphController@counlocataire');
+    Route::get('countproprietaire', 'App\Http\Controllers\ProprietaireController@countproprietaire');
 
 
 

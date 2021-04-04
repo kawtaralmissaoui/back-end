@@ -39,4 +39,8 @@ class LocphController extends Controller
     {
         return  User::all()->where('role', '=', 'locataire')->where('archive', '=', '1');
     }
+    public function counlocataire()
+    {
+        return  User::where('role', '=', 'locataire')->count();
+    }
 }

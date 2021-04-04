@@ -57,4 +57,8 @@ class ProprietaireController extends Controller
             return response()->json(["message" => "Select image first."]);
       }
     }
+    public function countproprietaire()
+    {
+        return  User::where('role', '=', 'proprietaire')->count();
+    }
 }

@@ -36,4 +36,9 @@ class LocationController extends Controller
     {
         return  Location::all()->where('archive', '=', '1');
     }
+    public function countlocation()
+    {
+        return  Location::all()->count();
+    }
+
 }
