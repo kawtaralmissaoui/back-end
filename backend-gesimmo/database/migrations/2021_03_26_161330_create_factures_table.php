@@ -15,16 +15,16 @@ class CreateFacturesTable extends Migration
     {
         Schema::create('factures', function (Blueprint $table) {
             $table->id();
-            $table->date('date_paiement');
-            $table->string('etat_paiement');
-            $table->string('type');
-            $table->string('statut');
-            $table->double('loyer_mensuel');
-            $table->double('syndic');
-            $table->double('taxe');
-            $table->double('reparation');
-            $table->double('personnel');
-            $table->integer('nbt_relance');
+            $table->date('date_paiement')->nullable();
+            $table->string('etat_paiement')->nullable();
+            $table->string('type')->nullable();
+            $table->string('statut')->nullable();
+            $table->double('loyer_mensuel')->nullable();
+            $table->double('syndic')->nullable();
+            $table->double('taxe')->nullable();
+            $table->double('reparation')->nullable();
+            $table->double('personnel')->nullable();
+            $table->integer('nbt_relance')->nullable();
             $table->foreignId('location_id')->constrained('locations')->onUpdate('cascade');
             $table->timestamps();
         });

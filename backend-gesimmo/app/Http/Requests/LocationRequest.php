@@ -24,7 +24,12 @@ class LocationRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'identifiant' => 'required|string',
+            'date_entree' => 'required|string',
+            'date_sortie' => 'required|string',
+            //'montant' => 'required|double',
+
+
         ];
     }
 }

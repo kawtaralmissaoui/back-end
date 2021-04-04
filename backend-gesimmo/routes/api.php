@@ -32,7 +32,7 @@ Route::group([
     Route::get('getLocationArchive', 'App\Http\Controllers\LocationController@getLocationArchive');
     Route::get('getChargeActif', 'App\Http\Controllers\ChargeController@getChargeActif');
     Route::get('getChargeArchive', 'App\Http\Controllers\ChargeController@getChargeArchive');
-
+    Route::post('uploadimage', 'App\Http\Controllers\ProprietaireController@uploadimage');
 
 
 

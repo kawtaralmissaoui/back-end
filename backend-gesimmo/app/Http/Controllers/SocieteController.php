@@ -16,8 +16,8 @@ class SocieteController extends Controller
     {
         $user = new User();
         $user->patente = $request->patente;
-        $user->nom_responsable = $request->nom_responsable;
-        $user->prenom_responsable = $request->prenom_responsable;
+        $user->nom = $request->nom;
+        $user->prenom = $request->prenom;
         $user->nom_societe = $request->nom_societe;
         $user->statut_societe = $request->statut_societe;
         $user->email = $request->email;
@@ -25,7 +25,7 @@ class SocieteController extends Controller
         $user->role = 'proprietaire';
         $user->adresse = $request->adresse;
         $user->telephone = $request->telephone;
-        $user->archive = $request->archive;
+        $user->archive = 0;
         $user->password = bcrypt($request->password);
         $user->save();
         return response()->json([

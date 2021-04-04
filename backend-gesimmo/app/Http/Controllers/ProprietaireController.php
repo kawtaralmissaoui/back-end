@@ -21,8 +21,10 @@ class ProprietaireController extends Controller
         $user->role = 'proprietaire';
         $user->adresse = $request->adresse;
         $user->telephone = $request->telephone;
-        $user->archive = $request->archive;
+        $user->archive = 0;
+        $user->image = $request->image;
         $user->password = bcrypt($request->password);
+
         $user->save();
         return response()->json([
             'message' => 'proprietaire successfully registed',
@@ -36,5 +38,23 @@ class ProprietaireController extends Controller
     public function getProPhyArchive()
     {
         return  User::all()->where('role', '=', 'proprietaire')->where('archive', '=', '1');
+    }
+
+    public function uploadimage(Request $request)
+    {
+      //dd($request->all());
+      if ($request->hasFile('image'))
+      {
+            $file      = $request->file('image');
+            $filename  = $file->getClientOriginalName();
+            $extension = $file->getClientOriginalExtension();
+            $picture   = $filename;
+            $file->move(public_path('img'), $picture);
+            return response()->json(["message" => "Image Uploaded Succesfully"]);
+      }
+      else
+      {
+            return response()->json(["message" => "Select image first."]);
+      }
     }
 }

@@ -15,10 +15,10 @@ class CreateDocumentsTable extends Migration
     {
         Schema::create('documents', function (Blueprint $table) {
             $table->id();
-            $table->string('nom');
-            $table->string('document');
-            $table->integer('docable_id');
-            $table->string('docable_type');
+            $table->string('nom')->nullable();
+            $table->string('document')->nullable();
+            $table->integer('docable_id')->nullable();
+            $table->string('docable_type')->nullable();
             $table->timestamps();
         });
     }

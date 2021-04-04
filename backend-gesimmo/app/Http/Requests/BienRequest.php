@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Symfony\Contracts\Service\Attribute\Required;
 
 class BienRequest extends FormRequest
 {
@@ -24,14 +25,16 @@ class BienRequest extends FormRequest
     public function rules()
     {
         return [
+            'identifiant'=>'required',
             'adresse' => 'required',
-            'surface' => 'required',
-            'statut' => 'required',
+            //'surface' => 'required',
+           // 'statut' => 'required',
+            'type' => 'required',
             'loyer_mensuel' => 'required',
             'syndic' => 'required',
-            'taxe_habitation' => 'required',
+            //'taxe_habitation' => 'required',
             //'archive' => 'required|string',
-            'nbr_piece' => 'required|integer',
+            //'nbr_piece' => 'required|integer',
             'equipement' => 'required|boolean',
             'ascenseur' => 'required|boolean',
             'etage' => 'required|integer',

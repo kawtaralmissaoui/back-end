@@ -15,7 +15,7 @@ class PaiementController extends Controller
         $Facture = new Facture ();
         $Facture->date_paiement = $request->date_paiement;
         $Facture->etat_paiement = $request->etat_paiement ;
-        $Facture->type = $request->type ;
+        $Facture->type = 'paiement' ;
         $Facture->statut = $request->statut ;
         $Facture->loyer_mensuel = $request->loyer_mensuel;
         $Facture->syndic = $request->syndic;

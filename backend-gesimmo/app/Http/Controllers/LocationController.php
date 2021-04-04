@@ -13,11 +13,13 @@ class LocationController extends Controller
     public function  addLocation(LocationRequest $request)
     {
         $Location = new Location ();
+        $Location->identifiant = $request->identifiant;
         $Location->date_entree = $request->date_entree;
         $Location->date_sortie = $request->date_sortie;
         $Location->montant = $request->montant;
+        $Location->duree = $request->duree;
         $Location->type = $request->type ;
-        $Location->archive = $request->archive;
+        $Location->archive = 0;
         $Location->user_id = $request->user_id;
         $Location->bien_id = $request->bien_id;
         $Location->save();

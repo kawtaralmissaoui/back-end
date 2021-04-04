@@ -15,13 +15,15 @@ class CreateLocationsTable extends Migration
     {
         Schema::create('locations', function (Blueprint $table) {
             $table->id();
-            $table->date('date_entree');
-            $table->date('date_sortie');
-            $table->double('montant');
-            $table->string('type');
+            $table->string('identifiant')->nullable();
+            $table->date('date_entree')->nullable();
+            $table->date('date_sortie')->nullable();
+            $table->double('montant')->nullable();
+            $table->double('duree')->nullable();
+            $table->string('type')->nullable();
             $table->foreignId('user_id')->constrained()->onUpdate('cascade');
             $table->foreignId('bien_id')->constrained()->onUpdate('cascade');
-            $table->string('archive');
+            $table->string('archive')->nullable();
             $table->timestamps();
         });
     }

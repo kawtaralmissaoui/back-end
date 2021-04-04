@@ -15,23 +15,23 @@ class CreateUsersTable extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->string('civilite');
-            $table->string('nom');
-            $table->string('prenom');
-            $table->string('role');
+            $table->string('civilite')->nullable();
+            $table->string('nom')->nullable();
+            $table->string('prenom')->nullable();
+            $table->string('role')->nullable();
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
-            $table->string('adresse');
-            $table->string('telephone');
-            $table->string('CIN');
-            $table->boolean('archive');
-            $table->string('password');
-            $table->string('nom_responsable');
-            $table->string('prenom_responsable');
-            $table->string('nom_societe');
-            $table->string('patente');
-            $table->string('statut_societe');
-            $table->mediumText('image');
+            $table->string('adresse')->nullable();
+            $table->string('telephone')->nullable();
+            $table->string('CIN')->nullable()->unique();
+            $table->boolean('archive')->nullable();
+            $table->string('password')->nullable();
+            //$table->string('nom_responsable')->nullable();
+            //$table->string('prenom_responsable')->nullable();
+            $table->string('nom_societe')->nullable();
+            $table->string('patente')->nullable();
+            $table->string('statut_societe')->nullable();
+            $table->string('image')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

@@ -13,13 +13,14 @@ class BienController extends Controller
     public function  AddBien(BienRequest $request)
     {
         $bien = new Bien();
+        $bien->identifiant = $request->identifiant;
         $bien->adresse = $request->adresse;
         $bien->surface = $request->surface;
         $bien->statut = $request->statut;
         $bien->loyer_mensuel = $request->loyer_mensuel;
         $bien->syndic = $request->syndic;
         $bien->taxe_habitation = $request->taxe_habitation;
-        $bien->archive = $request->archive;
+        $bien->archive = 0;
         $bien->nbr_piece = $request->nbr_piece;
         $bien->equipement = $request->equipement;
         $bien->ascenseur = $request->ascenseur;

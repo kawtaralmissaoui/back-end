@@ -15,17 +15,21 @@ class CreateBiensTable extends Migration
     {
         Schema::create('biens', function (Blueprint $table) {
             $table->id();
-            $table->string('adresse');
-            $table->double('surface');
-            $table->string('statut');
-            $table->double('loyer_mensuel');
-            $table->double('syndic');
-            $table->double('taxe_habitation');
-            $table->string('archive');
-            $table->integer('nbr_piece');
-            $table->boolean('equipement');
-            $table->boolean('ascenseur');
-            $table->integer('etage');
+            $table->string('identifiant')->unique();
+            $table->string('adresse')->nullable();
+            $table->double('surface')->nullable();
+            $table->string('statut')->nullable();
+            $table->string('type')->nullable();
+            $table->string('code_postal')->nullable();
+            $table->double('loyer_mensuel')->nullable();
+            $table->double('syndic')->nullable();
+            $table->double('taxe_habitation')->nullable();
+            $table->string('archive')->nullable();
+            $table->integer('nbr_piece')->nullable();
+            $table->boolean('equipement')->nullable();
+            $table->boolean('ascenseur')->nullable();
+            $table->integer('etage')->nullable();
+            $table->integer('porte')->nullable();
             $table->foreignId('user_id')->constrained('users')->onUpdate('cascade');
             $table->timestamps();
         });

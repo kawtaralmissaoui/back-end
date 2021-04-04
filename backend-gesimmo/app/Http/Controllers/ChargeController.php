@@ -15,7 +15,7 @@ class ChargeController extends Controller
         $Facture = new Facture ();
         $Facture->date_paiement = $request->date_paiement;
         //$Facture->etat_paiement = $request->etat_paiement ;
-        $Facture->type = $request->type ;
+        $Facture->type = 'charge' ;
         //$Facture->statut = $request->statut ;
         //$Facture->loyer_mensuel = $request->loyer_mensuel;
         //$Facture->syndic = $request->syndic;
@@ -23,7 +23,6 @@ class ChargeController extends Controller
         $Facture->reparation = $request->reparation;
         $Facture->personnel = $request->personnel;
         $Facture->nbt_relance = $request->nbt_relance;
-        $Facture->location_id = $request->location_id;
         $Facture->save();
         return response()->json([
             'message' => 'Facture  successfully registed',
@@ -33,10 +32,6 @@ class ChargeController extends Controller
 
     public function getChargeActif()
     {
-        return  Facture::all()->where('syndic', '=', 'NULL');
-    }
-    public function getChargeArchive()
-    {
-        return  Facture::all()->where('archive', '=', '1');
+        return  Facture::all()->where('type', '=', 'charge');
     }
 }
