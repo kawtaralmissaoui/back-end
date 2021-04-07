@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\RegistrationFormRequest;
 use Illuminate\Http\Request;
 use App\Models\User;
+use Illuminate\Support\Facades\Storage;
 class ProprietaireController extends Controller
 {
     public function __construct()
@@ -39,7 +40,20 @@ class ProprietaireController extends Controller
         $user->adresse = $request->adresse;
         $user->telephone = $request->telephone;
         $user->archive = 0;
-        $user->image = $request->image;
+        if ($request->hasFile('image'))
+        {
+            $file      = $request->file('image');
+            $filename  = $file->getClientOriginalName();
+            //$extension = $file->getClientOriginalExtension();
+            //$file->move(public_path('img'), $filename);
+            $path=Storage::disk('local')->put('images',$file);
+            $user->image = $path;
+        }
+        else
+        {
+            $user->image = 'dfgdf';
+        }
+
         $user->password = bcrypt($request->password);
         $user->save();
         return response()->json([

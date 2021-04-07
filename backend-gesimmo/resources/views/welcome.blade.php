@@ -128,5 +128,6 @@
                 </div>
             </div>
         </div>
+        <img src="../localhost:8000/storage"
     </body>
 </html>
