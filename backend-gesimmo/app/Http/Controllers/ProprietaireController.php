@@ -10,6 +10,23 @@ class ProprietaireController extends Controller
     {
         //$this->middleware('auth:api', ['except' => ['AddProprietaire', 'register', 'logout']]);
     }
+    /*public function uploadimage(Request $request)
+    {
+      //dd($request->all());
+      if ($request->hasFile('image'))
+      {
+            $file      = $request->file('image');
+            $filename  = $file->getClientOriginalName();
+            //$extension = $file->getClientOriginalExtension();
+            $picture   = $filename;
+            $file->move(public_path('img'), $picture);
+            return response()->json(["message" => "Image Uploaded Succesfully"]);
+      }
+      else
+      {
+            return response()->json(["message" => "Select image first."]);
+      }
+    }*/
     public function  AddProprietaire(RegistrationFormRequest $request)
     {
         $user = new User();
@@ -24,7 +41,6 @@ class ProprietaireController extends Controller
         $user->archive = 0;
         $user->image = $request->image;
         $user->password = bcrypt($request->password);
-
         $user->save();
         return response()->json([
             'message' => 'proprietaire successfully registed',
@@ -40,23 +56,7 @@ class ProprietaireController extends Controller
         return  User::all()->where('role', '=', 'proprietaire')->where('archive', '=', '1');
     }
 
-    public function uploadimage(Request $request)
-    {
-      //dd($request->all());
-      if ($request->hasFile('image'))
-      {
-            $file      = $request->file('image');
-            $filename  = $file->getClientOriginalName();
-            $extension = $file->getClientOriginalExtension();
-            $picture   = $filename;
-            $file->move(public_path('img'), $picture);
-            return response()->json(["message" => "Image Uploaded Succesfully"]);
-      }
-      else
-      {
-            return response()->json(["message" => "Select image first."]);
-      }
-    }
+
     public function countproprietaire()
     {
         return  User::where('role', '=', 'proprietaire')->count();
