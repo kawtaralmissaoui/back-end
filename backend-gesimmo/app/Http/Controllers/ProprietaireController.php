@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\RegistrationFormRequest;
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Document;
 use Illuminate\Support\Facades\Storage;
 class ProprietaireController extends Controller
 {
@@ -11,25 +12,10 @@ class ProprietaireController extends Controller
     {
         //$this->middleware('auth:api', ['except' => ['AddProprietaire', 'register', 'logout']]);
     }
-    /*public function uploadimage(Request $request)
-    {
-      //dd($request->all());
-      if ($request->hasFile('image'))
-      {
-            $file      = $request->file('image');
-            $filename  = $file->getClientOriginalName();
-            //$extension = $file->getClientOriginalExtension();
-            $picture   = $filename;
-            $file->move(public_path('img'), $picture);
-            return response()->json(["message" => "Image Uploaded Succesfully"]);
-      }
-      else
-      {
-            return response()->json(["message" => "Select image first."]);
-      }
-    }*/
+
     public function  AddProprietaire(RegistrationFormRequest $request)
     {
+
         $user = new User();
         $user->civilite = $request->civilite;
         $user->nom = $request->nom;
@@ -53,9 +39,26 @@ class ProprietaireController extends Controller
         {
             $user->image = 'dfgdf';
         }
-
+        //$user->documents()->create(['nom'=>'kkkk','document'=>'fac.pdf']);
         $user->password = bcrypt($request->password);
         $user->save();
+        if ($request->hasFile('doc'))
+        {
+            $file= $request->file('doc');
+            $path=Storage::disk('local')->put('documents',$file);
+            $user->documents()->create(['nom'=>$request->nom,'document'=>$path]);
+        }
+        else
+        {
+            return 'select fichier pdf';
+        }
+
+        //$user->documents()->create(['nom'=>$request->nom,'document'=>$request->document]);
+
+
+
+
+
         return response()->json([
             'message' => 'proprietaire successfully registed',
             'user' => $user

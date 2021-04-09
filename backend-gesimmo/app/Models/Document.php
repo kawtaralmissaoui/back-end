@@ -8,6 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class Document extends Model
 {
     use HasFactory;
+    protected $fillable = [
+        'nom',
+        'document',
+    ];
 
     public function docable()
     {
