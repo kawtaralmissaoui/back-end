@@ -73,9 +73,31 @@ class ProprietaireController extends Controller
         return  User::all()->where('role', '=', 'proprietaire')->where('archive', '=', '1');
     }
 
+    public function getUserById($id){
+        $user =  User::where('role', '=', 'proprietaire')->find($id);
+        return $user;
+    }
 
     public function countproprietaire()
     {
         return  User::where('role', '=', 'proprietaire')->count();
+    }
+
+    public function update(Request $request)
+    {
+        $user = User::find($request->id);
+
+        $user->civilite = $request->civilite;
+        $user->nom = $request->nom;
+        $user->prenom = $request->prenom;
+        $user->email = $request->email;
+        $user->CIN = $request->CIN;
+        $user->adresse = $request->adresse;
+        $user->telephone = $request->telephone;
+        $user->save();
+        return response()->json([
+            'message' => 'proprietaire has succesfully updated ',
+            'user' =>  $user
+        ], 201);
     }
 }

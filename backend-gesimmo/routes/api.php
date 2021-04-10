@@ -37,8 +37,15 @@ Route::group([
     Route::get('countbien', 'App\Http\Controllers\BienController@countbien');
     Route::get('counlocataire', 'App\Http\Controllers\LocphController@counlocataire');
     Route::get('countproprietaire', 'App\Http\Controllers\ProprietaireController@countproprietaire');
-
-
-
-
+    Route::get('getUserById/{id}', 'App\Http\Controllers\ProprietaireController@getUserById');
+    Route::get('getchargeById/{id}', 'App\Http\Controllers\ChargeController@getchargeById');
+    Route::get('getlocataireById/{id}', 'App\Http\Controllers\LocphController@getlocataireById');
+    Route::put('archiverUser/{id}', 'App\Http\Controllers\LocphController@archiverUser');
+    Route::put('update/{id}', 'App\Http\Controllers\ProprietaireController@update');
+    Route::get('getbienById/{id}', 'App\Http\Controllers\BienController@getbienById');
+    Route::get('getlocationById/{id}', 'App\Http\Controllers\LocationController@getlocationById');
+    Route::put('archiverBien/{id}', 'App\Http\Controllers\BienController@archiverBien');
+    Route::put('archiverLocation/{id}', 'App\Http\Controllers\LocationController@archiverLocation');
+    Route::put('updatelocation/{id}', 'App\Http\Controllers\LocationController@updatelocation');
+    Route::put('updatebien/{id}', 'App\Http\Controllers\BienController@updatebien');
 });

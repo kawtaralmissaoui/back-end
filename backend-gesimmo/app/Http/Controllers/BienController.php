@@ -19,6 +19,7 @@ class BienController extends Controller
         $bien->statut = 'libre';
         $bien->loyer_mensuel = $request->loyer_mensuel;
         $bien->syndic = $request->syndic;
+        $bien->code_postal = $request->code_postal;
         $bien->taxe_habitation = $request->taxe_habitation;
         $bien->archive = 0;
         $bien->nbr_piece = $request->nbr_piece;
@@ -43,5 +44,45 @@ class BienController extends Controller
     public function countbien()
     {
         return  Bien::all()->count();
+    }
+
+    public function getbienById($id){
+        $bien =  Bien::find($id);
+        return $bien;
+    }
+
+    public function archiverBien($id){
+        $bien =  Bien::find($id);
+        if($bien)
+        {
+            $bien->archive=1;
+            $bien->save();
+        }
+        return response()->json([
+            'message' => 'bien archive',
+        ], 201);
+    }
+
+    public function updatebien(Request $request)
+    {
+        $bien = Bien::find($request->id);
+
+        $bien->identifiant = $request->identifiant;
+        $bien->adresse = $request->adresse;
+        $bien->surface = $request->surface;
+        $bien->loyer_mensuel = $request->loyer_mensuel;
+        $bien->syndic = $request->syndic;
+        $bien->taxe_habitation = $request->taxe_habitation;
+        $bien->nbr_piece = $request->nbr_piece;
+        $bien->equipement = $request->equipement;
+        $bien->ascenseur = $request->ascenseur;
+        $bien->etage = $request->etage;
+        $bien->user_id = $request->user_id;
+        $bien->code_postal = $request->code_postal;
+        $bien->save();
+        return response()->json([
+            'message' => 'proprietaire has succesfully updated ',
+            'user' =>  $bien
+        ], 201);
     }
 }

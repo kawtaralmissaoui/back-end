@@ -43,4 +43,20 @@ class LocphController extends Controller
     {
         return  User::where('role', '=', 'locataire')->count();
     }
+    public function getlocataireById($id){
+        $user =  User::where('role', '=', 'locataire')->find($id);
+        return $user;
+    }
+
+    public function archiverUser($id){
+        $user =  User::find($id);
+        if($user)
+        {
+            $user->archive=1;
+            $user->save();
+        }
+        return response()->json([
+            'message' => 'user archive',
+        ], 201);
+    }
 }

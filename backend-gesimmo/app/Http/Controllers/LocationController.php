@@ -40,5 +40,39 @@ class LocationController extends Controller
     {
         return  Location::all()->count();
     }
+    public function getlocationById($id){
+        $Location =  Location::find($id);
+        return $Location;
+    }
+    public function archiverLocation($id){
+        $Location =  Location::find($id);
+        if($Location)
+        {
+            $Location->archive=1;
+            $Location->save();
+        }
+        return response()->json([
+            'message' => 'bien archive',
+        ], 201);
+    }
+
+    public function updatelocation(Request $request)
+    {
+        $Location = Location::find($request->id);
+
+        $Location->identifiant = $request->identifiant;
+        $Location->date_entree = $request->date_entree;
+        $Location->date_sortie = $request->date_sortie;
+        $Location->montant = $request->montant;
+        $Location->duree = $request->duree;
+        $Location->type = $request->type ;
+        $Location->user_id = $request->user_id;
+        $Location->bien_id = $request->bien_id;
+        $Location->save();
+        return response()->json([
+            'message' => 'proprietaire has succesfully updated ',
+            'user' =>  $Location
+        ], 201);
+    }
 
 }

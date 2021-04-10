@@ -29,7 +29,10 @@ class ChargeController extends Controller
             'Facture ' => $Facture
         ], 201);
     }
-
+    public function getchargeById($id){
+        $Facture =  Facture::where('type', '=', 'charge')->find($id);
+        return $Facture;
+    }
     public function getChargeActif()
     {
         return  Facture::all()->where('type', '=', 'charge');
