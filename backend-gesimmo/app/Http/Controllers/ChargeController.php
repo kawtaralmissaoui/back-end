@@ -20,8 +20,8 @@ class ChargeController extends Controller
         //$Facture->loyer_mensuel = $request->loyer_mensuel;
         //$Facture->syndic = $request->syndic;
         //$Facture->taxe = $request->taxe;
-        $Facture->reparation = $request->reparation;
-        $Facture->personnel = $request->personnel;
+        $Facture->description = $request->description;
+        $Facture->montant = $request->montant;
         $Facture->nbt_relance = $request->nbt_relance;
         $Facture->save();
         return response()->json([

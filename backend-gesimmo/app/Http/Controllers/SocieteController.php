@@ -25,6 +25,7 @@ class SocieteController extends Controller
         $user->role = 'proprietaire';
         $user->adresse = $request->adresse;
         $user->telephone = $request->telephone;
+        $user->RC = $request->RC;
         $user->archive = 0;
         $user->password = bcrypt($request->password);
         $user->save();

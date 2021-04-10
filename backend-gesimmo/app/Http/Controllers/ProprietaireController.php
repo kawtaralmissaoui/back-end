@@ -94,6 +94,7 @@ class ProprietaireController extends Controller
         $user->CIN = $request->CIN;
         $user->adresse = $request->adresse;
         $user->telephone = $request->telephone;
+        $user->RC = $request->RC;
         $user->save();
         return response()->json([
             'message' => 'proprietaire has succesfully updated ',

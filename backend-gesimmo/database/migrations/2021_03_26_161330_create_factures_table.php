@@ -22,8 +22,8 @@ class CreateFacturesTable extends Migration
             $table->double('loyer_mensuel')->nullable();
             $table->double('syndic')->nullable();
             $table->double('taxe')->nullable();
-            $table->double('reparation')->nullable();
-            $table->double('personnel')->nullable();
+            $table->string('description')->nullable();
+            $table->double('montant')->nullable();
             $table->integer('nbt_relance')->nullable();
             $table->foreignId('location_id')->constrained('locations')->onUpdate('cascade');
             $table->timestamps();

@@ -29,6 +29,7 @@ class CreateUsersTable extends Migration
             $table->string('nom_societe')->nullable();
             $table->string('patente')->nullable();
             $table->string('statut_societe')->nullable();
+            $table->string('RC')->nullable()->unique();
             $table->string('image')->nullable();
             $table->rememberToken();
             $table->timestamps();
