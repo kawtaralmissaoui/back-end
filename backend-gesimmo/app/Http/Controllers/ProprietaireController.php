@@ -26,6 +26,7 @@ class ProprietaireController extends Controller
         $user->adresse = $request->adresse;
         $user->telephone = $request->telephone;
         $user->archive = 0;
+        $user->type = 0;
         if ($request->hasFile('image'))
         {
             $file      = $request->file('image');

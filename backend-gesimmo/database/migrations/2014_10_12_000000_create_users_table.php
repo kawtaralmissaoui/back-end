@@ -25,6 +25,7 @@ class CreateUsersTable extends Migration
             $table->string('telephone')->nullable();
             $table->string('CIN')->nullable()->unique();
             $table->boolean('archive')->nullable();
+            $table->boolean('type')->nullable();
             $table->string('password')->nullable();
             $table->string('nom_societe')->nullable();
             $table->string('patente')->nullable();

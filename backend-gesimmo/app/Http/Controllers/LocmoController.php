@@ -24,6 +24,7 @@ class LocmoController extends Controller
         $user->adresse = $request->adresse;
         $user->telephone = $request->telephone;
         $user->archive = 0;
+        $user->type = 1;
         $user->RC = $request->RC;
         $user->password = bcrypt($request->password);
         $user->save();

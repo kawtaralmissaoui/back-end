@@ -22,6 +22,7 @@ class LocphController extends Controller
         $user->role = 'locataire';
         $user->adresse = $request->adresse;
         $user->archive = 0;
+        $user->type = 0;
         $user->password = bcrypt($request->password);
         //$user->image = $request->image->store('public');
         $user->save();

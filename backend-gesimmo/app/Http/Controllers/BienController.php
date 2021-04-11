@@ -26,6 +26,7 @@ class BienController extends Controller
         $bien->equipement = $request->equipement;
         $bien->ascenseur = $request->ascenseur;
         $bien->etage = $request->etage;
+        $bien->porte = $request->porte;
         $bien->user_id = $request->user_id;
         $bien->save();
         return response()->json([
@@ -77,6 +78,7 @@ class BienController extends Controller
         $bien->equipement = $request->equipement;
         $bien->ascenseur = $request->ascenseur;
         $bien->etage = $request->etage;
+        $bien->porte = $request->porte;
         $bien->user_id = $request->user_id;
         $bien->code_postal = $request->code_postal;
         $bien->save();

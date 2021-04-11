@@ -48,4 +48,19 @@ Route::group([
     Route::put('archiverLocation/{id}', 'App\Http\Controllers\LocationController@archiverLocation');
     Route::put('updatelocation/{id}', 'App\Http\Controllers\LocationController@updatelocation');
     Route::put('updatebien/{id}', 'App\Http\Controllers\BienController@updatebien');
+    Route::put('updateMorale/{id}', 'App\Http\Controllers\SocieteController@updateMorale');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 });
