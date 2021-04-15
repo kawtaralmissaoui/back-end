@@ -16,7 +16,7 @@ class BienController extends Controller
         $bien->identifiant = $request->identifiant;
         $bien->adresse = $request->adresse;
         $bien->surface = $request->surface;
-        $bien->statut = 'libre';
+        $bien->statut = 0;
         $bien->loyer_mensuel = $request->loyer_mensuel;
         $bien->syndic = $request->syndic;
         $bien->code_postal = $request->code_postal;
@@ -24,7 +24,6 @@ class BienController extends Controller
         $bien->archive = 0;
         $bien->nbr_piece = $request->nbr_piece;
         $bien->equipement = $request->equipement;
-        $bien->ascenseur = $request->ascenseur;
         $bien->etage = $request->etage;
         $bien->porte = $request->porte;
         $bien->user_id = $request->user_id;
@@ -68,7 +67,7 @@ class BienController extends Controller
     {
         $bien = Bien::find($request->id);
 
-        $bien->identifiant = $request->identifiant;
+        //$bien->identifiant = $request->identifiant;
         $bien->adresse = $request->adresse;
         $bien->surface = $request->surface;
         $bien->loyer_mensuel = $request->loyer_mensuel;
@@ -76,14 +75,13 @@ class BienController extends Controller
         $bien->taxe_habitation = $request->taxe_habitation;
         $bien->nbr_piece = $request->nbr_piece;
         $bien->equipement = $request->equipement;
-        $bien->ascenseur = $request->ascenseur;
         $bien->etage = $request->etage;
         $bien->porte = $request->porte;
-        $bien->user_id = $request->user_id;
+        //$bien->user_id = $request->user_id;
         $bien->code_postal = $request->code_postal;
         $bien->save();
         return response()->json([
-            'message' => 'proprietaire has succesfully updated ',
+            'message' => 'BIEN has succesfully updated ',
             'user' =>  $bien
         ], 201);
     }

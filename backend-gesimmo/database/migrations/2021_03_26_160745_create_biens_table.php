@@ -18,7 +18,7 @@ class CreateBiensTable extends Migration
             $table->string('identifiant')->unique();
             $table->string('adresse')->nullable();
             $table->double('surface')->nullable();
-            $table->string('statut')->nullable();
+            $table->boolean('statut')->nullable();
             $table->string('type')->nullable();
             $table->string('code_postal')->nullable();
             $table->double('loyer_mensuel')->nullable();
@@ -26,8 +26,7 @@ class CreateBiensTable extends Migration
             $table->double('taxe_habitation')->nullable();
             $table->string('archive')->nullable();
             $table->integer('nbr_piece')->nullable();
-            $table->boolean('equipement')->nullable();
-            $table->boolean('ascenseur')->nullable();
+            $table->string('equipement')->nullable();
             $table->integer('etage')->nullable();
             $table->integer('porte')->nullable();
             $table->foreignId('user_id')->constrained('users')->onUpdate('cascade');

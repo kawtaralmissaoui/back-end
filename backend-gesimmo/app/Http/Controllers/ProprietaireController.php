@@ -5,6 +5,7 @@ use App\Http\Requests\RegistrationFormRequest;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Document;
+use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
 class ProprietaireController extends Controller
 {
@@ -27,21 +28,22 @@ class ProprietaireController extends Controller
         $user->telephone = $request->telephone;
         $user->archive = 0;
         $user->type = 0;
+        $user->password = bcrypt($request->password);
         if ($request->hasFile('image'))
         {
             $file      = $request->file('image');
+            $fileExtention=$file->extension();
             $filename  = $file->getClientOriginalName();
-            //$extension = $file->getClientOriginalExtension();
-            //$file->move(public_path('img'), $filename);
-            $path=Storage::disk('local')->put('images',$file);
-            $user->image = $path;
+            $fileFullName=time()."-".$filename;
+            $path=Str::slug($fileFullName).".".$fileExtention;
+            $file->move(public_path('profile-pictures/'),$path);
+            $fullpath='profile-pictures/'.$path;
+            $user->image = asset($fullpath);
         }
         else
         {
-            $user->image = 'dfgdf';
+            $user->image = 'http://localhost:8000/profile-pictures/1618440455-persopng.png';
         }
-        //$user->documents()->create(['nom'=>'kkkk','document'=>'fac.pdf']);
-        $user->password = bcrypt($request->password);
         $user->save();
         if ($request->hasFile('doc'))
         {
@@ -54,7 +56,20 @@ class ProprietaireController extends Controller
             return 'select fichier pdf';
         }
 
-        //$user->documents()->create(['nom'=>$request->nom,'document'=>$request->document]);
+
+
+       /* if(!empty($request->documents))
+        {
+            foreach(json_decode($request->documents) as $document)
+            {
+                $path2=Storage::disk('local')->put('/documents',$document->doc);
+                $user->documents()->create(['nom'=>$document->nom,'document'=>$path2]);
+            }
+        }
+        else
+        {
+            $user->documents()->create(['nom'=>'scan','document'=>'doc.jpg']);
+        }*/
 
 
 

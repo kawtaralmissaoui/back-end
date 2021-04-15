@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use Illuminate\Support\Str;
 use App\Http\Requests\RegistrationFormRequest;
 use Illuminate\Http\Request;
 use App\Models\User;
@@ -27,6 +28,21 @@ class LocmoController extends Controller
         $user->type = 1;
         $user->RC = $request->RC;
         $user->password = bcrypt($request->password);
+        if ($request->hasFile('image'))
+        {
+            $file      = $request->file('image');
+            $fileExtention=$file->extension();
+            $filename  = $file->getClientOriginalName();
+            $fileFullName=time()."-".$filename;
+            $path=Str::slug($fileFullName).".".$fileExtention;
+            $file->move(public_path('profile-pictures/'),$path);
+            $fullpath='profile-pictures/'.$path;
+            $user->image = asset($fullpath);
+        }
+        else
+        {
+            $user->image = 'http://localhost:8000/profile-pictures/1618440455-persopng.png';
+        }
         $user->save();
         return response()->json([
             'message' => 'societe successfully registed',
