@@ -28,6 +28,6 @@ public $details;
      */
     public function build()
     {
-        return $this->from('almissaoui.kawtar@gmail.com')->subject('Test email')->view("emails.TestMail");
+        return $this->subject('Test email')->view('emails.TestMail');//from('almissaoui.kawtar@gmail.com')->
     }
 }

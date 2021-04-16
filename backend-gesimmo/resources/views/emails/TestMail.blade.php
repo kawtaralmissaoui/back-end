@@ -4,8 +4,10 @@
 	<title>Test email</title>
 </head>
 <body>
-    <h1>{{ $details['title'] }} </h1>
-    <p>{{ $details['body'] }}</p>
-    <p> Thnak You</p>
+    <p>Bonjour : {{ $details['prenom']  }} {{ $details['nom'] }}</p>
+    <p>Votre Compte sue GESIMMO a été crée avec succés . Vous pouvez vous connecter
+         avec le mot de passe suivant <u><b>{{ $details['body'] }} </b></u></p>
+    <p>From GESIMMO </p>
+    <p>Merci</p>
 </body>
 </html>

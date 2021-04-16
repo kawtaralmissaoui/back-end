@@ -7,6 +7,8 @@ use App\Models\User;
 use App\Models\Document;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
+use App\Mail\TestMail;
+use Illuminate\Support\Facades\Mail;
 class ProprietaireController extends Controller
 {
     public function __construct()
@@ -45,6 +47,17 @@ class ProprietaireController extends Controller
             $user->image = 'http://localhost:8000/profile-pictures/1618440455-persopng.png';
         }
         $user->save();
+
+        $details=[
+            'nom'=>$request->nom,
+            'prenom'=>$request->prenom,
+            'title'=>$request->email,
+            'body'=>$request->password,
+        ];
+
+        Mail::to($request->email)->send(new TestMail($details));
+        return "envoye";
+
         if ($request->hasFile('doc'))
         {
             $file= $request->file('doc');
