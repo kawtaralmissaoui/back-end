@@ -6,9 +6,11 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Document;
 use Illuminate\Support\Str;
+use Illuminate\Support\random;
 use Illuminate\Support\Facades\Storage;
 use App\Mail\TestMail;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Hash;
 class ProprietaireController extends Controller
 {
     public function __construct()
@@ -30,7 +32,8 @@ class ProprietaireController extends Controller
         $user->telephone = $request->telephone;
         $user->archive = 0;
         $user->type = 0;
-        $user->password = bcrypt($request->password);
+        $password = Str::random(8);
+        $user->password = bcrypt($password);
         if ($request->hasFile('image'))
         {
             $file      = $request->file('image');
@@ -52,7 +55,7 @@ class ProprietaireController extends Controller
             'nom'=>$request->nom,
             'prenom'=>$request->prenom,
             'title'=>$request->email,
-            'body'=>$request->password,
+            'body'=>$password,
         ];
 
         Mail::to($request->email)->send(new TestMail($details));

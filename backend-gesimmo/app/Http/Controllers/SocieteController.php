@@ -6,6 +6,8 @@ use App\Http\Requests\RegistrationFormRequest;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Str;
+use App\Mail\TestMail;
+use Illuminate\Support\Facades\Mail;
 class SocieteController extends Controller
 {
     public function __construct()
@@ -28,7 +30,8 @@ class SocieteController extends Controller
         $user->RC = $request->RC;
         $user->archive = 0;
         $user->type = 1;
-        $user->password = bcrypt($request->password);
+        $password = Str::random(8);
+        $user->password = bcrypt($password);
         if ($request->hasFile('image'))
         {
             $file      = $request->file('image');
@@ -45,6 +48,17 @@ class SocieteController extends Controller
             $user->image = 'http://localhost:8000/profile-pictures/1618440455-persopng.png';
         }
         $user->save();
+
+        $details=[
+            'nom'=>$request->nom,
+            'prenom'=>$request->prenom,
+            'title'=>$request->email,
+            'body'=>$password,
+        ];
+
+        Mail::to($request->email)->send(new TestMail($details));
+        return "envoye";
+
         return response()->json([
             'message' => 'societe successfully registed',
             'user' => $user
