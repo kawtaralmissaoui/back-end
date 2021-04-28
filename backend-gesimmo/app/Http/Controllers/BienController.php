@@ -28,6 +28,7 @@ class BienController extends Controller
         $bien->code_postal = $request->code_postal;
         $bien->taxe_habitation = $request->taxe_habitation;
         $bien->archive = 0;
+        $bien->type = $request->type;;
         $bien->nbr_piece = $request->nbr_piece;
         $bien->equipement = $request->equipement;
         $bien->etage = $request->etage;
