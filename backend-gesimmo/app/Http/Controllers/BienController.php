@@ -8,6 +8,7 @@ use App\Models\Bien;
 use App\Models\Image;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Illuminate\support\Facades\DB;
 
 class BienController extends Controller
 {

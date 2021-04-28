@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\MailController;
+use App\Http\Controllers\BienController;
+use App\Http\Controllers\LocationController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -19,4 +21,4 @@ Route::get('/', function () {
 });
 
 Route::get('/send-email', [MailController::class,'sendEmail']);
-
+Route::get('/show', [LocationController::class,'show']);

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\LocationRequest;
 use Illuminate\Http\Request;
 use App\Models\Location;
+use Illuminate\support\Facades\DB;
 class LocationController extends Controller
 {
     public function __construct()
@@ -22,11 +23,22 @@ class LocationController extends Controller
         $Location->archive = 0;
         $Location->user_id = $request->user_id;
         $Location->bien_id = $request->bien_id;
+
         $Location->save();
-        return response()->json([
+       return response()->json([
             'message' => 'location successfully registed',
-            'location' => $Location
+            'location' => $Location,
+
+            //recuperer les infos de bien choisi dans la location
+            DB::table('biens')
+            ->join('locations','bien_id',"=",'locations.bien_id')
+            ->select('biens.*')
+            ->where('biens.id',$Location->bien_id)
+            ->where('locations.bien_id',$Location->bien_id)
+            ->get()
+
         ], 201);
+
     }
     public function getLocationActif()
     {
@@ -73,6 +85,19 @@ class LocationController extends Controller
             'message' => 'proprietaire has succesfully updated ',
             'user' =>  $Location
         ], 201);
+    }
+
+    function show()
+    {
+        $test= DB::table('biens')
+        ->join('locations','bien_id',"=",'locations.bien_id')
+        ->select('biens.statut')
+        ->where('biens.id',5)
+        ->where('locations.bien_id',5)
+        //->where('biens.id','locations.bien_id')
+        ->get();
+
+        return $test;
     }
 
 }
