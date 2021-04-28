@@ -8,6 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class Bien extends Model
 {
     use HasFactory;
+
+
+
     public function user()
     {
         return $this->belongsTo(User::class);
@@ -15,5 +18,9 @@ class Bien extends Model
     public function location()
     {
         return $this->belongsTo(Location::class);
+    }
+    public function images()
+    {
+        return $this->hasMany(Image::class);
     }
 }
