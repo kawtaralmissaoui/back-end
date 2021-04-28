@@ -67,6 +67,10 @@ class BienController extends Controller
     {
         return  Bien::all()->where('archive', '=', '1');
     }
+    public function getBienLibre()
+    {
+        return  Bien::all()->where('statut', '=', '0');
+    }
     public function countbien()
     {
         return  Bien::all()->count();

@@ -49,7 +49,7 @@ Route::group([
     Route::put('updatelocation/{id}', 'App\Http\Controllers\LocationController@updatelocation');
     Route::put('updatebien/{id}', 'App\Http\Controllers\BienController@updatebien');
     Route::put('updateMorale/{id}', 'App\Http\Controllers\SocieteController@updateMorale');
-
+    Route::get('getBienLibre', 'App\Http\Controllers\BienController@getBienLibre');
 
 
 
