@@ -33,37 +33,24 @@ class BienController extends Controller
         $bien->etage = $request->etage;
         $bien->porte = $request->porte;
         $bien->user_id = $request->user_id;
-
         $bien->save();
+        print_r($request->all());
 
-        // if ($request->hasFile('images')) {
         $files = $request->file('images');
         if (!empty($files)) {
-            // if (!empty($request->images)) {
-            /* $data = [
-                $request->allFiles(),
-            ];
-            return response()->json($data);*/
-            print_r($request->all());
-
             foreach ($files as $file) {
-                $image = new Image();
-                $image->bien_id;
-
-                //$file = $request->file('images');
                 $fileExtention = $file->extension();
                 $filename  = $file->getClientOriginalName();
                 $fileFullName = time() . "-" . $filename;
                 $path = Str::slug($fileFullName) . "." . $fileExtention;
                 $file->move(public_path('images-bien/'), $path);
                 $fullpath = 'images-bien/' . $path;
-                $image->asset($fullpath);
-                //$path=Storage::disk('local')->('images-bien',$image);
-                $bien->images()->create(['image' => asset($fullpath), 'bien_id' => $image->bien_id]);
-            } //$bien->image = asset($fullpath);
+                $bien->images()->create(['image' => asset($fullpath)]);
+            }
         } else {
-            //$bien->images()->create(['image' => 'notworking']);
-            // $bien->image = 'http://localhost:8000/images-bien/1618440455-persopng.png';
+            return response()->json([
+                'message' => 'error',
+            ]);
         }
 
         return response()->json([
