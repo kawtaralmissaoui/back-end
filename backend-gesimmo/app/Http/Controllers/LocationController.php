@@ -1,10 +1,12 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Http\Requests\LocationRequest;
 use Illuminate\Http\Request;
 use App\Models\Location;
 use Illuminate\support\Facades\DB;
+
 class LocationController extends Controller
 {
     public function __construct()
@@ -13,32 +15,28 @@ class LocationController extends Controller
     }
     public function  addLocation(LocationRequest $request)
     {
-        $Location = new Location ();
+        $Location = new Location();
         $Location->identifiant = $request->identifiant;
         $Location->date_entree = $request->date_entree;
         $Location->date_sortie = $request->date_sortie;
         $Location->montant = $request->montant;
         $Location->duree = $request->duree;
-        $Location->type = $request->type ;
+        $Location->type = $request->type;
         $Location->archive = 0;
         $Location->user_id = $request->user_id;
         $Location->bien_id = $request->bien_id;
 
         $Location->save();
-       return response()->json([
+        DB::table('biens')
+            ->join('locations', 'bien_id', "=", 'locations.bien_id')
+            //->select('biens.*')
+            ->where('biens.id', $Location->bien_id)
+            ->where('locations.bien_id', $Location->bien_id)
+            ->update(['statut' => 1]);
+        return response()->json([
             'message' => 'location successfully registed',
             'location' => $Location,
-
-            //recuperer les infos de bien choisi dans la location
-            DB::table('biens')
-            ->join('locations','bien_id',"=",'locations.bien_id')
-            ->select('biens.*')
-            ->where('biens.id',$Location->bien_id)
-            ->where('locations.bien_id',$Location->bien_id)
-            ->get()
-
         ], 201);
-
     }
     public function getLocationActif()
     {
@@ -52,15 +50,16 @@ class LocationController extends Controller
     {
         return  Location::all()->count();
     }
-    public function getlocationById($id){
+    public function getlocationById($id)
+    {
         $Location =  Location::find($id);
         return $Location;
     }
-    public function archiverLocation($id){
+    public function archiverLocation($id)
+    {
         $Location =  Location::find($id);
-        if($Location)
-        {
-            $Location->archive=1;
+        if ($Location) {
+            $Location->archive = 1;
             $Location->save();
         }
         return response()->json([
@@ -77,7 +76,7 @@ class LocationController extends Controller
         $Location->date_sortie = $request->date_sortie;
         $Location->montant = $request->montant;
         $Location->duree = $request->duree;
-        $Location->type = $request->type ;
+        $Location->type = $request->type;
         $Location->user_id = $request->user_id;
         $Location->bien_id = $request->bien_id;
         $Location->save();
@@ -89,15 +88,14 @@ class LocationController extends Controller
 
     function show()
     {
-        $test= DB::table('biens')
-        ->join('locations','bien_id',"=",'locations.bien_id')
-        ->select('biens.statut')
-        ->where('biens.id',5)
-        ->where('locations.bien_id',5)
-        //->where('biens.id','locations.bien_id')
-        ->get();
+        $test = DB::table('biens')
+            ->join('locations', 'bien_id', "=", 'locations.bien_id')
+            ->select('biens.statut')
+            ->where('biens.id', 5)
+            ->where('locations.bien_id', 5)
+            //->where('biens.id','locations.bien_id')
+            ->get();
 
         return $test;
     }
-
 }
