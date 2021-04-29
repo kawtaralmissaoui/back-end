@@ -71,6 +71,11 @@ class BienController extends Controller
     {
         return  Bien::all()->where('statut', '=', '0');
     }
+
+    public function getBienLibreWithImages()
+    {
+        return Bien::with('images')->get()->where('statut', '=', '0');
+    }
     public function countbien()
     {
         return  Bien::all()->count();

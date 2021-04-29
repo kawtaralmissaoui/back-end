@@ -1,4 +1,5 @@
 <?php
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -50,17 +51,5 @@ Route::group([
     Route::put('updatebien/{id}', 'App\Http\Controllers\BienController@updatebien');
     Route::put('updateMorale/{id}', 'App\Http\Controllers\SocieteController@updateMorale');
     Route::get('getBienLibre', 'App\Http\Controllers\BienController@getBienLibre');
-
-
-
-
-
-
-
-
-
-
-
-
-
+    Route::get('biens', 'App\Http\Controllers\BienController@getBienLibreWithImages');
 });
