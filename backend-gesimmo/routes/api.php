@@ -52,4 +52,5 @@ Route::group([
     Route::put('updateMorale/{id}', 'App\Http\Controllers\SocieteController@updateMorale');
     Route::get('getBienLibre', 'App\Http\Controllers\BienController@getBienLibre');
     Route::get('biens', 'App\Http\Controllers\BienController@getBienLibreWithImages');
+    Route::get('bie_prop/{idu}', 'App\Http\Controllers\ProprietaireController@bie_prop');
 });

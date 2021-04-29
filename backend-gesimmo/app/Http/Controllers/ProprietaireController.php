@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Storage;
 use App\Mail\TestMail;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\support\Facades\DB;
 class ProprietaireController extends Controller
 {
     public function __construct()
@@ -132,5 +133,16 @@ class ProprietaireController extends Controller
             'message' => 'proprietaire has succesfully updated ',
             'user' =>  $user
         ], 201);
+    }
+
+    function bie_prop($idu)
+    {
+        $test = DB::table('users')
+            ->join('biens', 'user_id', "=", 'biens.user_id')
+            ->select('biens.*')
+            ->where('biens.user_id', $idu)
+            ->where('users.id', $idu)
+            ->get();
+        return $test;
     }
 }
