@@ -9,9 +9,11 @@ use Illuminate\Support\Str;
 use Illuminate\Support\random;
 use Illuminate\Support\Facades\Storage;
 use App\Mail\TestMail;
+use App\Mail\ChangerPass;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\support\Facades\DB;
+
 class ProprietaireController extends Controller
 {
     public function __construct()
@@ -145,4 +147,51 @@ class ProprietaireController extends Controller
             ->get();
         return $test;
     }
+
+    public function mailChangerPass(Request $request)
+
+    {
+        $input = $request->email;
+     
+
+     
+        //generation du mot de passe 
+        $random = str_shuffle('abcdefghjklmnopqrstuvwxyzABCDEFGHJKLMNOPQRSTUVWXYZ234567890!$%^&!$%^&');
+        $password = substr($random, 0, 10);
+        
+       
+
+
+        //verification de l'email 
+        $user = new User();
+        $user = User::where('email',$input) -> first();
+        if($user===null){
+
+           
+            return response()->json([
+                'error' =>  "Le mail que vous avez saisi n'existe pas !",
+            ], 401);
+        }
+        
+        if($user!=null){
+            $user->password = bcrypt($password);
+            $user->save();
+            $details = [
+                'nom' => $user->nom,
+                'pass' => $password
+            ];
+    
+            Mail::to($user->email )->send(new ChangerPass($details));
+            return response()->json([
+            'message' => 'Email sent with new Password !',
+            'newPASS' => $password,
+            'Email' => $input,
+            'user' => $user,
+             ], 201);
+
+        }
+       
+    }
+
+
 }
