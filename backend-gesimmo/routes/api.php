@@ -53,5 +53,6 @@ Route::group([
     Route::get('getBienLibre', 'App\Http\Controllers\BienController@getBienLibre');
     Route::get('biens', 'App\Http\Controllers\BienController@getBienLibreWithImages');
     Route::get('bie_prop/{idu}', 'App\Http\Controllers\ProprietaireController@bie_prop');
-    Route::post('sendMailChangePass', 'App\Http\Controllers\ProprietaireControllere@mailChangerPass');
+    Route::post('sendMailChangePass', 'App\Http\Controllers\ProprietaireController@mailChangerPass');
+    Route::get('getImmoById/{id}', 'App\Http\Controllers\BienController@getImmoById');
 });

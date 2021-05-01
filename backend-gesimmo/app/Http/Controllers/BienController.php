@@ -121,4 +121,8 @@ class BienController extends Controller
             'user' =>  $bien
         ], 201);
     }
+    public function getImmoById($id)
+    {
+        return Bien::with('images')->get()->find($id);
+    }
 }
