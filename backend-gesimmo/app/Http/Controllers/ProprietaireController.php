@@ -152,27 +152,18 @@ class ProprietaireController extends Controller
 
     {
         $input = $request->email;
-     
-
-     
-        //generation du mot de passe 
-        $random = str_shuffle('abcdefghjklmnopqrstuvwxyzABCDEFGHJKLMNOPQRSTUVWXYZ234567890!$%^&!$%^&');
+        //generation du mot de passe
+        $random = str_shuffle('abcdefghjklmnopqrstuvwxyzABCDEFGHJKLMNOPQRSTUVWXYZ234567890');
         $password = substr($random, 0, 10);
-        
-       
-
-
-        //verification de l'email 
+        //verification de l'email
         $user = new User();
         $user = User::where('email',$input) -> first();
         if($user===null){
-
-           
             return response()->json([
                 'error' =>  "Le mail que vous avez saisi n'existe pas !",
             ], 401);
         }
-        
+
         if($user!=null){
             $user->password = bcrypt($password);
             $user->save();
@@ -180,7 +171,7 @@ class ProprietaireController extends Controller
                 'nom' => $user->nom,
                 'pass' => $password
             ];
-    
+
             Mail::to($user->email )->send(new ChangerPass($details));
             return response()->json([
             'message' => 'Email sent with new Password !',
@@ -190,7 +181,7 @@ class ProprietaireController extends Controller
              ], 201);
 
         }
-       
+
     }
 
 
