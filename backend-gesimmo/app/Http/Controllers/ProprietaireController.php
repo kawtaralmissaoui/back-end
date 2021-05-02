@@ -184,5 +184,23 @@ class ProprietaireController extends Controller
 
     }
 
+    public function search($search)
+    {
+        $user=DB::table('users')
+        ->where('nom','like','%'.$search.'%')
+        ->orwhere('prenom','like','%'.$search.'%')
+        ->orwhere('prenom','like','%'.$search.'%')
+        ->orwhere('email','like','%'.$search.'%')
+        ->orwhere('CIN','like','%'.$search.'%')
+        ->orwhere('nom_societe','like','%'.$search.'%')
+        ->orwhere('statut_societe','like','%'.$search.'%')
+        ->orwhere('patente','like','%'.$search.'%')
+        ->orwhere('RC','like','%'.$search.'%')
+        ->orwhere('type','like','%'.$search.'%')
+        ->get();
+        return $user;
+    }
+
+
 
 }
