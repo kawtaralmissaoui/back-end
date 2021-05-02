@@ -32,7 +32,7 @@ class LocationController extends Controller
             //->select('biens.*')
             ->where('biens.id', $Location->bien_id)
             ->where('locations.bien_id', $Location->bien_id)
-            ->update(['statut' => 1]);
+            ->update(['statut' => 'occupé']);
         return response()->json([
             'message' => 'location successfully registed',
             'location' => $Location,

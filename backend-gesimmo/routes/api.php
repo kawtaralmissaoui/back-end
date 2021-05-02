@@ -56,8 +56,8 @@ Route::group([
     Route::post('sendMailChangePass', 'App\Http\Controllers\ProprietaireController@mailChangerPass');
     Route::get('getImmoById/{id}', 'App\Http\Controllers\BienController@getImmoById');
     Route::get('search/{search}', 'App\Http\Controllers\ProprietaireController@search');
-
-
+    Route::get('searchbien/{search}', 'App\Http\Controllers\BienController@searchbien');
+    Route::get('searchcharge/{search}', 'App\Http\Controllers\ChargeController@searchcharge');
 
 
 

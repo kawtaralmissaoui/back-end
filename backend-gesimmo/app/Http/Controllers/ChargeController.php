@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\FactureRequest;
 use Illuminate\Http\Request;
 use App\Models\Facture;
+use Illuminate\support\Facades\DB;
 class ChargeController extends Controller
 {
     public function __construct()
@@ -36,5 +37,15 @@ class ChargeController extends Controller
     public function getChargeActif()
     {
         return  Facture::all()->where('type', '=', 'charge');
+    }
+
+    public function searchcharge($search)
+    {
+        $Facture=DB::table('factures')
+        ->where('date_paiement','like','%'.$search.'%')
+        ->orwhere('description','like','%'.$search.'%')
+        ->orwhere('montant','like','%'.$search.'%')
+        ->get();
+        return $Facture;
     }
 }

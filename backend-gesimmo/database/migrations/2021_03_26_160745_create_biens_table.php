@@ -18,7 +18,7 @@ class CreateBiensTable extends Migration
             $table->string('identifiant')->unique();
             $table->string('adresse')->nullable();
             $table->double('surface')->nullable();
-            $table->boolean('statut')->nullable();
+            $table->string('statut')->nullable();
             $table->string('type')->nullable();
             $table->string('code_postal')->nullable();
             $table->double('loyer_mensuel')->nullable();

@@ -22,7 +22,7 @@ class BienController extends Controller
         $bien->identifiant = $request->identifiant;
         $bien->adresse = $request->adresse;
         $bien->surface = $request->surface;
-        $bien->statut = 0;
+        $bien->statut = "libre";
         $bien->loyer_mensuel = $request->loyer_mensuel;
         $bien->syndic = $request->syndic;
         $bien->code_postal = $request->code_postal;
@@ -69,12 +69,12 @@ class BienController extends Controller
     }
     public function getBienLibre()
     {
-        return  Bien::all()->where('statut', '=', '0');
+        return  Bien::all()->where('statut', '=', 'libre');
     }
 
     public function getBienLibreWithImages()
     {
-        return Bien::with('images')->get()->where('statut', '=', '0');
+        return Bien::with('images')->get()->where('statut', '=', 'libre');
     }
     public function countbien()
     {
@@ -124,5 +124,17 @@ class BienController extends Controller
     public function getImmoById($id)
     {
         return Bien::with('images')->get()->find($id);
+    }
+
+    public function searchbien($search)
+    {
+        $bien=DB::table('biens')
+        ->where('identifiant','like','%'.$search.'%')
+        ->orwhere('adresse','like','%'.$search.'%')
+        ->orwhere('equipement','like','%'.$search.'%')
+        ->orwhere('statut','like','%'.$search.'%')
+        ->orwhere('type','like','%'.$search.'%')
+        ->get();
+        return $bien;
     }
 }
