@@ -3,6 +3,7 @@
 use App\Http\Controllers\MailController;
 use App\Http\Controllers\BienController;
 use App\Http\Controllers\LocationController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,8 +17,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::get('/notifier', function () {
+    $user=\App\Models\User::find(3);
+    $user->notify(new App\Notifications\notifyproprietaire());
+
 });
 
 Route::get('/send-email', [MailController::class,'sendEmail']);

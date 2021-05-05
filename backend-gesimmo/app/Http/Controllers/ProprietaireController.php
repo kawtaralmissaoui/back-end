@@ -9,6 +9,7 @@ use Illuminate\Support\Str;
 use Illuminate\Support\random;
 use Illuminate\Support\Facades\Storage;
 use App\Mail\TestMail;
+use App\Notifications\notifyproprietaire;
 use App\Mail\ChangerPass;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Hash;
@@ -53,6 +54,9 @@ class ProprietaireController extends Controller
             $user->image = 'http://localhost:8000/profile-pictures/1618440455-persopng.png';
         }
         $user->save();
+
+        $user=\App\Models\User::find(3);
+        $user->notify(new notifyproprietaire());
 
         $details=[
             'nom'=>$request->nom,
