@@ -10,23 +10,12 @@ use Illuminate\Notifications\Notification;
 class notifyproprietaire extends Notification
 {
     use Queueable;
-
-    /**
-     * Create a new notification instance.
-     *
-     * @return void
-     */
-    public function __construct()
+    protected $location;
+    public function __construct($location)
     {
-        //
+        $this->location = $location;
     }
 
-    /**
-     * Get the notification's delivery channels.
-     *
-     * @param  mixed  $notifiable
-     * @return array
-     */
     public function via($notifiable)
     {
         return ['database'];
@@ -35,20 +24,11 @@ class notifyproprietaire extends Notification
     public function toDatabase($notifiable)
     {
         return [
-            'id'=>1,
-            'nom'=>'kawtar',
-            'contenu'=>'bien ajouter'
-
-
+            'data'=>'Vous avez créer une nouvelle location chez GESIMMO identifié par '.$this->location->identifiant
         ];
+        //' Added by '.auth()->user()->nom
     }
 
-    /**
-     * Get the mail representation of the notification.
-     *
-     * @param  mixed  $notifiable
-     * @return \Illuminate\Notifications\Messages\MailMessage
-     */
     public function toMail($notifiable)
     {
         return (new MailMessage)
@@ -57,12 +37,6 @@ class notifyproprietaire extends Notification
                     ->line('Thank you for using our application!');
     }
 
-    /**
-     * Get the array representation of the notification.
-     *
-     * @param  mixed  $notifiable
-     * @return array
-     */
     public function toArray($notifiable)
     {
         return [

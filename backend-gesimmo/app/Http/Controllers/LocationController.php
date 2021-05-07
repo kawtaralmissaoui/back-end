@@ -5,7 +5,10 @@ namespace App\Http\Controllers;
 use App\Http\Requests\LocationRequest;
 use Illuminate\Http\Request;
 use App\Models\Location;
+use App\Models\User;
+use App\Notifications\notifyproprietaire;
 use Illuminate\support\Facades\DB;
+use Illuminate\Support\Facades\Notification;
 
 class LocationController extends Controller
 {
@@ -26,7 +29,12 @@ class LocationController extends Controller
         $Location->user_id = $request->user_id;
         $Location->bien_id = $request->bien_id;
 
-        $Location->save();
+        if($Location->save())
+        {
+            //$user=user::all();
+            $user=user::find($request->user_id);
+            Notification::send($user , new notifyproprietaire($Location));
+        };
         DB::table('biens')
             ->join('locations', 'bien_id', "=", 'locations.bien_id')
             //->select('biens.*')
@@ -80,6 +88,7 @@ class LocationController extends Controller
         $Location->user_id = $request->user_id;
         $Location->bien_id = $request->bien_id;
         $Location->save();
+
         return response()->json([
             'message' => 'proprietaire has succesfully updated ',
             'user' =>  $Location

@@ -11,10 +11,12 @@ use Illuminate\Support\Facades\Storage;
 use App\Mail\TestMail;
 use App\Notifications\notifyproprietaire;
 use App\Mail\ChangerPass;
+use Illuminate\Notifications\Events\NotificationSent;
+use Illuminate\Notifications\Notification;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\support\Facades\DB;
-
+use Illuminate\support\Facades\Auth;
 class ProprietaireController extends Controller
 {
     public function __construct()
@@ -54,10 +56,6 @@ class ProprietaireController extends Controller
             $user->image = 'http://localhost:8000/profile-pictures/1618440455-persopng.png';
         }
         $user->save();
-
-        $user=\App\Models\User::find(3);
-        $user->notify(new notifyproprietaire());
-
         $details=[
             'nom'=>$request->nom,
             'prenom'=>$request->prenom,
@@ -78,26 +76,6 @@ class ProprietaireController extends Controller
         {
             return 'select fichier pdf';
         }
-
-
-
-       /* if(!empty($request->documents))
-        {
-            foreach(json_decode($request->documents) as $document)
-            {
-                $path2=Storage::disk('local')->put('/documents',$document->doc);
-                $user->documents()->create(['nom'=>$document->nom,'document'=>$path2]);
-            }
-        }
-        else
-        {
-            $user->documents()->create(['nom'=>'scan','document'=>'doc.jpg']);
-        }*/
-
-
-
-
-
         return response()->json([
             'message' => 'proprietaire successfully registed',
             'user' => $user
@@ -153,7 +131,6 @@ class ProprietaireController extends Controller
     }
 
     public function mailChangerPass(Request $request)
-
     {
         $input = $request->email;
         //generation du mot de passe
@@ -204,6 +181,47 @@ class ProprietaireController extends Controller
         ->get();
         return $user;
     }
+    public function Affnotification($id)
+    {
+        $user=\App\Models\User::find($id);
+        foreach($user->unreadnotifications as $not)
+        {
+            echo  $not->data['data'];
+            //var_dump($not->data);
+            //$not->markAsRead();
+        }
+    }
+
+    public function change_password(Request $request )
+    {
+        $request->validate([
+            'old_password'=>'required|min:6|max:13',
+            'new_password'=>'required|min:6|max:13',
+            'confirm_password'=>'required|same:new_password',
+        ]);
+        $current_user=Auth::user();
+        //User::find(2);
+       //Auth::user();
+        if(Hash::check($request->old_password, $current_user->password))
+        {
+            $current_user->update([
+                'password'=>bcrypt($request->new_password),
+            ]);
+            return 'modifier';
+        }
+        else
+        {
+            return 'erreur';
+        }
+    }
+
+    public function get_auth($token)
+    {
+        return  User::where('nom', '=', $token);
+
+    }
+
+
 
 
 

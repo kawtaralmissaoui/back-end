@@ -3,9 +3,8 @@
 use App\Http\Controllers\MailController;
 use App\Http\Controllers\BienController;
 use App\Http\Controllers\LocationController;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-
+use Illuminate\Support\Facades\Notification;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -17,10 +16,16 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/notifier', function () {
-    $user=\App\Models\User::find(3);
-    $user->notify(new App\Notifications\notifyproprietaire());
+Route::get('/', function () {
+    //$user=\App\Models\User::get();
+    //Notification::send($user,new App\Notifications\notifyproprietaire());
 
+    $user=\App\Models\User::find(1);
+    foreach($user->unreadnotifications as $not)
+    {
+        var_dump($not->data);
+        //$not->markAsRead();
+    }
 });
 
 Route::get('/send-email', [MailController::class,'sendEmail']);
