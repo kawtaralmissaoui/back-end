@@ -14,7 +14,7 @@ use App\Mail\ChangerPass;
 use Illuminate\Notifications\Events\NotificationSent;
 use Illuminate\Notifications\Notification;
 use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Hash;
+
 use Illuminate\support\Facades\DB;
 use Illuminate\support\Facades\Auth;
 class ProprietaireController extends Controller
@@ -192,34 +192,6 @@ class ProprietaireController extends Controller
         }
     }
 
-    public function change_password(Request $request )
-    {
-        $request->validate([
-            'old_password'=>'required|min:6|max:13',
-            'new_password'=>'required|min:6|max:13',
-            'confirm_password'=>'required|same:new_password',
-        ]);
-        $current_user=Auth::user();
-        //User::find(2);
-       //Auth::user();
-        if(Hash::check($request->old_password, $current_user->password))
-        {
-            $current_user->update([
-                'password'=>bcrypt($request->new_password),
-            ]);
-            return 'modifier';
-        }
-        else
-        {
-            return 'erreur';
-        }
-    }
-
-    public function get_auth($token)
-    {
-        return  User::where('nom', '=', $token);
-
-    }
 
 
 

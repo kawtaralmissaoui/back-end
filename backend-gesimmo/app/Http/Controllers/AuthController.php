@@ -6,7 +6,7 @@ use App\Http\Requests\RegistrationFormRequest;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
-
+use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
@@ -60,5 +60,29 @@ class AuthController extends Controller
             'expires_in' => Auth::factory()->getTTL() * 60,
             'user' => Auth::user()
         ]);
+    }
+
+    public function change_password(Request $request )
+    {
+        $request->validate([
+            'old_password'=>'required|min:6|max:13',
+            'new_password'=>'required|min:6|max:13',
+            'confirm_password'=>'required|same:new_password',
+        ]);
+        $current_user=Auth::user();
+        //User::find(2);
+       //Auth::user();
+        if(Hash::check($request->old_password, $current_user->password))
+        {
+            $current_user->update([
+                'password'=>bcrypt($request->new_password),
+            ]);
+            return 'modifier';
+        }
+        else
+        {
+            return 'erreur';
+        }
+        return Auth::user();
     }
 }
