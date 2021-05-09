@@ -69,7 +69,7 @@ class AuthController extends Controller
             'new_password'=>'required|min:6|max:13',
             'confirm_password'=>'required|same:new_password',
         ]);
-        $current_user=Auth::user();
+        $current_user=User::find($request->id);
         //User::find(2);
        //Auth::user();
         if(Hash::check($request->old_password, $current_user->password))

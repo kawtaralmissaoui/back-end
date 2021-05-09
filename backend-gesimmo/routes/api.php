@@ -58,9 +58,9 @@ Route::group([
     Route::get('search/{search}', 'App\Http\Controllers\ProprietaireController@search');
     Route::get('searchbien/{search}', 'App\Http\Controllers\BienController@searchbien');
     Route::get('searchcharge/{search}', 'App\Http\Controllers\ChargeController@searchcharge');
-    Route::get('Affnotification/{id}', 'App\Http\Controllers\ProprietaireController@Affnotification');
-    Route::post('change_password', 'App\Http\Controllers\AuthController@change_password');
-
+    //Route::get('Affnotification/{id}', 'App\Http\Controllers\ProprietaireController@Affnotification');
+    Route::put('change_password/{id}', 'App\Http\Controllers\AuthController@change_password');
+    Route::get('getUser/{id}', 'App\Http\Controllers\ProprietaireController@getUser');
 
 
 

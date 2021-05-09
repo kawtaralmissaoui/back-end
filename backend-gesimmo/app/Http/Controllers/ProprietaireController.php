@@ -95,6 +95,11 @@ class ProprietaireController extends Controller
         return $user;
     }
 
+    public function getUser($id){
+        $user =  User::find($id);
+        return $user;
+    }
+
     public function countproprietaire()
     {
         return  User::where('role', '=', 'proprietaire')->count();
@@ -181,7 +186,7 @@ class ProprietaireController extends Controller
         ->get();
         return $user;
     }
-    public function Affnotification($id)
+    /*public function Affnotification($id)
     {
         $user=\App\Models\User::find($id);
         foreach($user->unreadnotifications as $not)
@@ -190,7 +195,7 @@ class ProprietaireController extends Controller
             //var_dump($not->data);
             //$not->markAsRead();
         }
-    }
+    }*/
 
 
 
