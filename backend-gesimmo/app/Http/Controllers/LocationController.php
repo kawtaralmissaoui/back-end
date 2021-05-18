@@ -35,6 +35,21 @@ class LocationController extends Controller
             $user=user::find($request->user_id);
             Notification::send($user , new notifyproprietaire($Location));
         };
+     //$locataire=Location::with('user')->find($Location->id);
+        $Bien = DB::table('locations')
+        ->join('biens', 'bien_id', "=", 'biens.id')
+        ->select('biens.adresse','locations.date_entree',
+        'locations.date_sortie','locations.duree'
+        ,'biens.type')
+        ->where('locations.id', $Location->id)
+        ->get();
+        $Loc = DB::table('locations')
+        ->join('users', 'user_id', "=", 'users.id')
+        ->select('users.nom','users.prenom','users.adresse','users.civilite','users.CIN')
+        ->where('locations.id', $Location->id)
+        ->get();
+        $Prop = DB::select(
+            "SELECT p.nom, p.prenom,p.CIN,p.adresse,p.civilite FROM `locations` l , `biens` b, `users` p WHERE l.id=$Location->id and l.bien_id=b.id and b.user_id=p.id ;");
         DB::table('biens')
             ->join('locations', 'bien_id', "=", 'locations.bien_id')
             //->select('biens.*')
@@ -44,6 +59,10 @@ class LocationController extends Controller
         return response()->json([
             'message' => 'location successfully registed',
             'location' => $Location,
+            'Bien' => $Bien,
+            'Loc' => $Loc,
+            'Prop' => $Prop,
+           
         ], 201);
     }
     public function getLocationActif()
