@@ -39,13 +39,13 @@ class LocationController extends Controller
         $Bien = DB::table('locations')
         ->join('biens', 'bien_id', "=", 'biens.id')
         ->select('biens.adresse','locations.date_entree',
-        'locations.date_sortie','locations.duree'
-        ,'biens.type')
+        'locations.date_sortie','locations.duree','biens.etage','biens.porte','biens.equipement'
+        ,'biens.type','biens.loyer_mensuel','biens.syndic')
         ->where('locations.id', $Location->id)
         ->get();
         $Loc = DB::table('locations')
         ->join('users', 'user_id', "=", 'users.id')
-        ->select('users.nom','users.prenom','users.adresse','users.civilite','users.CIN')
+        ->select('users.nom','locations.type','users.prenom','users.adresse','users.civilite','users.CIN')
         ->where('locations.id', $Location->id)
         ->get();
         $Prop = DB::select(

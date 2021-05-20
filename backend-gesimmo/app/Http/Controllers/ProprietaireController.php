@@ -186,16 +186,17 @@ class ProprietaireController extends Controller
         ->get();
         return $user;
     }
-    /*public function Affnotification($id)
+    public function Affnotification($id)
     {
         $user=\App\Models\User::find($id);
         foreach($user->unreadnotifications as $not)
         {
-            echo  $not->data['data'];
+            return $not->data['data'];
+            //echo $not->data['data'];
             //var_dump($not->data);
             //$not->markAsRead();
         }
-    }*/
+    }
 
 
 
