@@ -9,6 +9,12 @@ use App\Models\User;
 use App\Notifications\notifyproprietaire;
 use Illuminate\support\Facades\DB;
 use Illuminate\Support\Facades\Notification;
+use Carbon\Carbon;
+use App\Models\Bien;
+use App\Models\Facture;
+
+
+
 
 class LocationController extends Controller
 {
@@ -22,18 +28,67 @@ class LocationController extends Controller
         $Location->identifiant = $request->identifiant;
         $Location->date_entree = $request->date_entree;
         $Location->date_sortie = $request->date_sortie;
-        $Location->montant = $request->montant;
-        $Location->duree = $request->duree;
+        //calculer la durée
+        $to = new Carbon($Location->date_entree);
+        $from =  new Carbon ($Location->date_sortie);
+        $diff_in_months = $to->diffInMonths($from);
+        $Location->duree = $diff_in_months;
         $Location->type = $request->type;
         $Location->archive = 0;
         $Location->user_id = $request->user_id;
         $Location->bien_id = $request->bien_id;
+        //calculer le montant 
+        $bien = Bien::find( $request->bien_id);
+        $Location->montant = $bien->loyer_mensuel+$bien->syndic;
 
         if($Location->save())
         {
             //$user=user::all();
             $user=user::find($request->user_id);
             Notification::send($user , new notifyproprietaire($Location));
+            $bien = Bien::find($Location->bien_id);
+
+            // le 1 de chaque moi
+            $to->modify( 'first day of this month' );
+
+            for($i=0; $i<$Location->duree; $i++)
+{
+    $Facture = new Facture ();
+
+
+       
+        $Facture->mois_paiement = $to;
+        $Facture->type = 'paiement' ;
+
+       // $Facture->loyer_mensuel = $bien->loyer_mensuel;
+        //$Facture->syndic = $request->syndic;
+         $Facture->etat_paiement = "En attente";
+     //   $montantTotale = $bien->loyer_mensuel + $bien->syndic;
+        $Facture->montant_total = $Location->montant;
+        $Facture->mois_impaye = 0;
+        $Facture->archive = 0;
+        $Facture->nbt_relance = 0;
+        $Facture->nbr_relance_total=0;
+        $Facture->montant_recu = 0;
+
+       
+       
+
+           $Facture->location_id= $Location->id;
+
+           $currentDate = Carbon::now();
+         
+
+       //f($Facture->montant_recu<$Facture->montant_total)
+            //  { echo "yes";
+                $date = new Carbon($Facture->mois_paiement);
+                $date->addDays(5);
+                if($currentDate>$date){ $Facture->etat_paiement="Impayé"; }
+                $Facture->save();
+                $to->modify( 'first day of next month' );
+    
+    
+            }
         };
      //$locataire=Location::with('user')->find($Location->id);
         $Bien = DB::table('locations')

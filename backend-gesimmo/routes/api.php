@@ -61,6 +61,11 @@ Route::group([
     Route::get('Affnotification/{id}', 'App\Http\Controllers\ProprietaireController@Affnotification');
     Route::put('change_password/{id}', 'App\Http\Controllers\AuthController@change_password');
     Route::get('getUser/{id}', 'App\Http\Controllers\ProprietaireController@getUser');
+    //paiement
+    Route::put('updateF/{id}', 'App\Http\Controllers\PaiementController@updateFacture');
+    Route::get('getF/{id}', 'App\Http\Controllers\PaiementController@getFactureByLocataire');
+    Route::get('getInfos/{id}', 'App\Http\Controllers\PaiementController@getOthersInfos');
+    Route::get('getFbyMonth', 'App\Http\Controllers\PaiementController@getFactureByMonth');
 
 
 

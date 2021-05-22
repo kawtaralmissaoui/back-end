@@ -18,7 +18,7 @@ class Location extends Model
     }
     public function bien()
     {
-        return $this->hasOne(Location::class);
+        return $this->belongsTo(Bien::class);
     }
     public function factures()
     {

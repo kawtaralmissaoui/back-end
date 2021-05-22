@@ -14,6 +14,6 @@ class Facture extends Model
     }
     public function location()
     {
-        return $this->belongsTo(Facture::class);
+        return $this->belongsTo(Location::class);
     }
 }

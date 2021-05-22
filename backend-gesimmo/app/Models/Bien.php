@@ -19,7 +19,7 @@ class Bien extends Model
     }
     public function location()
     {
-        return $this->belongsTo(Location::class);
+        return $this->hasOne(Location::class);
     }
     public function images()
     {
