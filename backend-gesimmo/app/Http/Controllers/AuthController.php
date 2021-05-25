@@ -83,6 +83,5 @@ class AuthController extends Controller
         {
             return 'erreur';
         }
-        return Auth::user();
     }
 }
