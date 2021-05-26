@@ -14,7 +14,11 @@ class PaiementController extends Controller
 {
     public function __construct()
     {
+<<<<<<< HEAD
      //   $this->middleware('auth:api', ['except' => ['addPaiement', 'register', 'logout']]);
+=======
+        //$this->middleware('auth:api', ['except' => ['addPaiement', 'register', 'logout']]);
+>>>>>>> 1bc921891cdc31284c8ddb48456ab5cb9e3a96c4
     }
     public function  addPaiement(FactureRequest $request)
     {
@@ -39,14 +43,14 @@ class PaiementController extends Controller
         $facture = Facture::with('location.user')->find($request->id);
         $montant_recu = $request->montant_recu;
 
-        
+
        // $facture->syndic=$request->syndic;
        // echo $facture->syndic;
      //   $facture->loyer_mensuel = $request->loyer_mensuel;
 
         //$montantTotale = $facture->loyer_mensuel + $facture->syndic;
            $currentDate = Carbon::now();
-           
+
 
            if($montant_recu<$facture->montant_total)
                {
@@ -57,13 +61,13 @@ class PaiementController extends Controller
                 $date2->addDays(13);
                 $date3->addDays(20);
                   if(($currentDate=$date1) || ($currentDate=$date2) || ($currentDate=$date3))
-                  {// $facture->etat_paiement="Impayé"; 
+                  {// $facture->etat_paiement="Impayé";
                     $facture->nbt_relance = $facture->nbt_relance +1;
                     $facture->nbr_relance_total = $facture->nbr_relance_total + 1;
 
-                    //recuperation nom et email de locataire 
+                    //recuperation nom et email de locataire
                     $name = $facture->location->user->nom ;
-                   
+
                     $email = $facture->location->user->email ;
 
                     $details = [
@@ -71,14 +75,20 @@ class PaiementController extends Controller
                         'id'=>$facture->id,
                         'montant' => $facture->montant_total+$facture->montant_total*$facture->nbt_relance
                     ];
+<<<<<<< HEAD
             
                Mail::to($email )->send(new Relance($details));
               
+=======
+
+               //Mail::to($email )->send(new Relance($details));
+
+>>>>>>> 1bc921891cdc31284c8ddb48456ab5cb9e3a96c4
                 }
                 if(($currentDate=$date3) && ($facture->etat_paiement=="Impaye")){
                   $facture->mois_impaye = $facture->mois_impaye+1;
                 }
-              
+
                }
            else{
                 $facture->etat_paiement="Payé";
@@ -96,13 +106,18 @@ class PaiementController extends Controller
                     'id'=>$facture->id,
                   //  'montant' => $facture->montant_total
                 ];
+<<<<<<< HEAD
         
            Mail::to($email )->send(new Paiement($details));
+=======
+
+           //Mail::to($email )->send(new Paiement($details));
+>>>>>>> 1bc921891cdc31284c8ddb48456ab5cb9e3a96c4
                }
                $facture->save();
 
 
-        
+
     }
 
 
@@ -112,19 +127,29 @@ class PaiementController extends Controller
     }
 
     public function getFactureByMonth(Request $reqeust){
+<<<<<<< HEAD
       $date = Carbon::today();
         
       $date->modify('first day of this month');
       $date=Carbon::parse($date)->toDateString();
 
    return Facture::with('location.bien.user', 'location.user')->where('mois_paiement', '=', $date)->get();
+=======
+       $date = Carbon::today();
+
+        $date->modify('first day of this month');
+        $date=Carbon::parse($date)->toDateString();
+
+     return Facture::with('location.bien.user', 'location.user')->where('mois_paiement', '=', $date)->get();
+
+>>>>>>> 1bc921891cdc31284c8ddb48456ab5cb9e3a96c4
 
     }
 
 
     public function getOthersInfos(Request $request){
       return Facture::with('location.bien.user', 'location.user')->find($request->id);
-   
+
 
     }
 }

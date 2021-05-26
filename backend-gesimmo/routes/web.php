@@ -17,15 +17,16 @@ use Illuminate\Support\Facades\Notification;
 */
 
 Route::get('/', function () {
+    return view('welcome');
     //$user=\App\Models\User::get();
     //Notification::send($user,new App\Notifications\notifyproprietaire());
 
-    $user=\App\Models\User::find(1);
+    /*$user=\App\Models\User::find(1);
     foreach($user->unreadnotifications as $not)
     {
         var_dump($not->data);
         //$not->markAsRead();
-    }
+    }*/
 });
 
 Route::get('/send-email', [MailController::class,'sendEmail']);
