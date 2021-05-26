@@ -117,6 +117,7 @@ class LocationController extends Controller
             'Bien' => $Bien,
             'Loc' => $Loc,
             'Prop' => $Prop,
+            'Facture' => $Facture
            
         ], 201);
     }

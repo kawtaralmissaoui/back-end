@@ -11,7 +11,7 @@ class LocmoController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => ['addLocM', 'register', 'logout']]);
+      //  $this->middleware('auth:api', ['except' => ['addLocM', 'register', 'logout']]);
     }
     public function  addLocM(RegistrationFormRequest $request)
     {
