@@ -123,7 +123,7 @@ class LocationController extends Controller
     }
     public function getLocationActif()
     {
-        return  Location::all()->where('archive', '=', '0');
+        return  Location::orderBy('created_at', 'desc')->where('archive', '=', '0')->get();
     }
     public function getLocationArchive()
     {

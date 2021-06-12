@@ -11,6 +11,8 @@ class Document extends Model
     protected $fillable = [
         'nom',
         'document',
+        'docable_id',
+        'docable_type'
     ];
 
     public function docable()

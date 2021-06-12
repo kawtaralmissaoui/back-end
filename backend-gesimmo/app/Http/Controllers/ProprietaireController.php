@@ -56,6 +56,24 @@ class ProprietaireController extends Controller
             $user->image = 'http://localhost:8000/profile-pictures/1618440455-persopng.png';
         }
         $user->save();
+        if ($request->hasFile('doc'))
+        {
+           
+            $file = $request->file('doc');
+            $fileExtention=$file->extension();
+            $filename  = $file->getClientOriginalName();
+            $fileFullName=time()."-".$filename;
+            $path=Str::slug($fileFullName).".".$fileExtention;
+            $file->move(public_path('documents/'),$path);
+            $fullpath='documents/'.$path;
+            $user->documents()->create(['nom'=>$request->nomdoc,'document'=>asset($fullpath)]);
+           // $user->image = asset($fullpath);
+        }
+        else
+        {
+            $user->documents()->create(['nom'=>"file",'document'=>"empty"]);
+        }
+
         $details=[
             'nom'=>$request->nom,
             'prenom'=>$request->prenom,
@@ -65,17 +83,8 @@ class ProprietaireController extends Controller
 
         Mail::to($request->email)->send(new TestMail($details));
         return "envoye";
-
-        if ($request->hasFile('doc'))
-        {
-            $file= $request->file('doc');
-            $path=Storage::disk('local')->put('documents',$file);
-            $user->documents()->create(['nom'=>$request->nom,'document'=>$path]);
-        }
-        else
-        {
-            return 'select fichier pdf';
-        }
+        
+     
         return response()->json([
             'message' => 'proprietaire successfully registed',
             'user' => $user
