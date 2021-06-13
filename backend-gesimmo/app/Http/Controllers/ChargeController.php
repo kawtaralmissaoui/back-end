@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 use App\Http\Requests\FactureRequest;
 use Illuminate\Http\Request;
-use App\Models\Facture;
+use App\Models\Charge;
 use Illuminate\support\Facades\DB;
 class ChargeController extends Controller
 {
@@ -11,41 +11,42 @@ class ChargeController extends Controller
     {
         //$this->middleware('auth:api', ['except' => ['addCharge', 'register', 'logout']]);
     }
-    public function  addCharge(FactureRequest $request)
+    public function  addCharge(Request $request)
     {
-        $Facture = new Facture ();
-        $Facture->date_paiement = $request->date_paiement;
+        $Charge = new Charge ();
+        $Charge->date_paiement = $request->date_paiement;
         //$Facture->etat_paiement = $request->etat_paiement ;
-        $Facture->type = 'charge' ;
+        $Charge->type = 'charge' ;
         //$Facture->statut = $request->statut ;
         //$Facture->loyer_mensuel = $request->loyer_mensuel;
         //$Facture->syndic = $request->syndic;
         //$Facture->taxe = $request->taxe;
-        $Facture->description = $request->description;
-        $Facture->montant = $request->montant;
-        $Facture->nbt_relance = $request->nbt_relance;
-        $Facture->save();
+        $Charge->description = $request->description;
+        $Charge->montant = $request->montant;
+        $Charge->nbt_relance = $request->nbt_relance;
+        $Charge->bien_id = $request->bien_id;
+        $Charge->save();
         return response()->json([
             'message' => 'Facture  successfully registed',
             'Facture ' => $Facture
         ], 201);
     }
     public function getchargeById($id){
-        $Facture =  Facture::where('type', '=', 'charge')->find($id);
-        return $Facture;
+        $Charge =  Charge::find($id);
+        return $Charge;
     }
     public function getChargeActif()
     {
-        return  Facture::all()->where('type', '=', 'charge');
+        return  Charge::all();
     }
 
     public function searchcharge($search)
     {
-        $Facture=DB::table('factures')
+        $Charge=DB::table('charges')
         ->where('date_paiement','like','%'.$search.'%')
         ->orwhere('description','like','%'.$search.'%')
         ->orwhere('montant','like','%'.$search.'%')
         ->get();
-        return $Facture;
+        return $Charge;
     }
 }
