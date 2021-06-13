@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateFacturesTable extends Migration
+class CreateChargesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,21 +13,16 @@ class CreateFacturesTable extends Migration
      */
     public function up()
     {
-        Schema::create('factures', function (Blueprint $table) {
+        Schema::create('charges', function (Blueprint $table) {
             $table->id();
-            $table->date('mois_paiement')->nullable();
-            //$table->string('type')->nullable();
             $table->double('montant_total')->nullable();
             $table->string('etat_paiement')->nullable();
             $table->double('montant_recu')->nullable();
             $table->date('date_paiement')->nullable();
-            $table->string('mode_paiement')->nullable();
-            $table->integer('mois_impaye')->nullable();
+            //$table->string('mode_paiement')->nullable();
             $table->boolean('archive')->nullable();
-            $table->integer('nbt_relance')->nullable();
-            $table->integer('nbr_relance_total')->nullable();
-            //$table->string('description')->nullable();
-            $table->foreignId('location_id')->constrained('locations')->onUpdate('cascade');
+            $table->string('description')->nullable();
+            $table->foreignId('bien_id')->constrained('biens')->onUpdate('cascade');
             $table->timestamps();
         });
     }
@@ -39,6 +34,6 @@ class CreateFacturesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('factures');
+        Schema::dropIfExists('charges');
     }
 }

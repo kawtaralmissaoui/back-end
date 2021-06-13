@@ -25,4 +25,8 @@ class Bien extends Model
     {
         return $this->hasMany(Image::class);
     }
+    public function charges()
+    {
+        return $this->hasMany(Charge::class);
+    }
 }

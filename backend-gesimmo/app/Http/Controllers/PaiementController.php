@@ -14,11 +14,7 @@ class PaiementController extends Controller
 {
     public function __construct()
     {
-<<<<<<< HEAD
      //   $this->middleware('auth:api', ['except' => ['addPaiement', 'register', 'logout']]);
-=======
-        //$this->middleware('auth:api', ['except' => ['addPaiement', 'register', 'logout']]);
->>>>>>> 1bc921891cdc31284c8ddb48456ab5cb9e3a96c4
     }
     public function  addPaiement(FactureRequest $request)
     {
@@ -75,15 +71,9 @@ class PaiementController extends Controller
                         'id'=>$facture->id,
                         'montant' => $facture->montant_total+$facture->montant_total*$facture->nbt_relance
                     ];
-<<<<<<< HEAD
             
                Mail::to($email )->send(new Relance($details));
               
-=======
-
-               //Mail::to($email )->send(new Relance($details));
-
->>>>>>> 1bc921891cdc31284c8ddb48456ab5cb9e3a96c4
                 }
                 if(($currentDate=$date3) && ($facture->etat_paiement=="Impaye")){
                   $facture->mois_impaye = $facture->mois_impaye+1;
@@ -106,13 +96,8 @@ class PaiementController extends Controller
                     'id'=>$facture->id,
                   //  'montant' => $facture->montant_total
                 ];
-<<<<<<< HEAD
         
            Mail::to($email )->send(new Paiement($details));
-=======
-
-           //Mail::to($email )->send(new Paiement($details));
->>>>>>> 1bc921891cdc31284c8ddb48456ab5cb9e3a96c4
                }
                $facture->save();
 
@@ -127,22 +112,12 @@ class PaiementController extends Controller
     }
 
     public function getFactureByMonth(Request $reqeust){
-<<<<<<< HEAD
       $date = Carbon::today();
         
       $date->modify('first day of this month');
       $date=Carbon::parse($date)->toDateString();
 
    return Facture::with('location.bien.user', 'location.user')->where('mois_paiement', '=', $date)->get();
-=======
-       $date = Carbon::today();
-
-        $date->modify('first day of this month');
-        $date=Carbon::parse($date)->toDateString();
-
-     return Facture::with('location.bien.user', 'location.user')->where('mois_paiement', '=', $date)->get();
-
->>>>>>> 1bc921891cdc31284c8ddb48456ab5cb9e3a96c4
 
     }
 
