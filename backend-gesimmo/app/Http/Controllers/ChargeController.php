@@ -16,19 +16,19 @@ class ChargeController extends Controller
         $Charge = new Charge ();
         $Charge->date_paiement = $request->date_paiement;
         //$Facture->etat_paiement = $request->etat_paiement ;
-        $Charge->type = 'charge' ;
+        //$Charge->type = 'charge' ;
         //$Facture->statut = $request->statut ;
         //$Facture->loyer_mensuel = $request->loyer_mensuel;
         //$Facture->syndic = $request->syndic;
         //$Facture->taxe = $request->taxe;
         $Charge->description = $request->description;
-        $Charge->montant = $request->montant;
-        $Charge->nbt_relance = $request->nbt_relance;
+        $Charge->montant_total = $request->montant_total;
+        //$Charge->nbt_relance = $request->nbt_relance;
         $Charge->bien_id = $request->bien_id;
         $Charge->save();
         return response()->json([
             'message' => 'Facture  successfully registed',
-            'Facture ' => $Facture
+            'Facture ' => $Charge
         ], 201);
     }
     public function getchargeById($id){
@@ -45,7 +45,7 @@ class ChargeController extends Controller
         $Charge=DB::table('charges')
         ->where('date_paiement','like','%'.$search.'%')
         ->orwhere('description','like','%'.$search.'%')
-        ->orwhere('montant','like','%'.$search.'%')
+        ->orwhere('montant_total','like','%'.$search.'%')
         ->get();
         return $Charge;
     }
