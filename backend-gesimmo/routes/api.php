@@ -67,6 +67,8 @@ Route::group([
     Route::get('getInfos/{id}', 'App\Http\Controllers\PaiementController@getOthersInfos');
     Route::get('getFbyMonth', 'App\Http\Controllers\PaiementController@getFactureByMonth');
 
+    Route::get('Charts', 'App\Http\Controllers\PaiementController@Charts');
+
 
 
 });

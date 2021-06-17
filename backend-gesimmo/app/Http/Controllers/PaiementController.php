@@ -8,7 +8,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\Relance;
 use App\Mail\Paiement;
-
+use Illuminate\support\Facades\DB;
 
 class PaiementController extends Controller
 {
@@ -126,5 +126,13 @@ class PaiementController extends Controller
       return Facture::with('location.bien.user', 'location.user')->find($request->id);
 
 
+    }
+
+    public function Charts(Request $request){
+      $result = DB::select(
+        "SELECT mois_paiement,SUM(montant_recu) FROM
+        `factures` WHERE YEAR(NOW())=YEAR(mois_paiement) 
+        GROUP BY mois_paiement ;");
+        return $result;
     }
 }
