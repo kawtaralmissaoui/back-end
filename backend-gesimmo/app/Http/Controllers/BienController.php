@@ -61,7 +61,7 @@ class BienController extends Controller
     }
     public function getBienActif()
     {
-        return  Bien::all()->where('archive', '=', '0');
+        return  Bien::with('user')->get()->where('archive', '=', '0');
     }
     public function getBienArchive()
     {
@@ -128,12 +128,13 @@ class BienController extends Controller
 
     public function searchbien($search)
     {
-        $bien=DB::table('biens')
+        $bien=Bien::with('user')
         ->where('identifiant','like','%'.$search.'%')
         ->orwhere('adresse','like','%'.$search.'%')
         ->orwhere('equipement','like','%'.$search.'%')
         ->orwhere('statut','like','%'.$search.'%')
         ->orwhere('type','like','%'.$search.'%')
+        
         ->get();
         return $bien;
     }
