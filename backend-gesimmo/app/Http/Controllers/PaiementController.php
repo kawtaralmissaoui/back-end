@@ -34,7 +34,7 @@ class PaiementController extends Controller
             'Facture ' => $Facture
         ], 201);
     }
-
+/* notification : Nous accusons récéption du paiement de votre loyer pour le mois  --date pour une somme  du --montant */ 
     public function updateFacture(Request $request){
         $facture = Facture::with('location.user')->find($request->id);
         $montant_recu = $request->montant_recu;

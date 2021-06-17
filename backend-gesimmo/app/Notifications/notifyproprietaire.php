@@ -24,7 +24,8 @@ class notifyproprietaire extends Notification
     public function toDatabase($notifiable)
     {
         return [
-            'data'=>'Vous avez créer une nouvelle location chez GESIMMO identifié par '.$this->location->identifiant
+            'data'=>'Nous vous remercions d\'avoir fait confiance à notre société et nous vous souhaitons un bon séjour 
+            dans votre nouvelle location .'
         ];
         //' Added by '.auth()->user()->nom
     }
