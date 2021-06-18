@@ -66,7 +66,7 @@ Route::group([
     Route::get('getF/{id}', 'App\Http\Controllers\PaiementController@getFactureByLocataire');
     Route::get('getInfos/{id}', 'App\Http\Controllers\PaiementController@getOthersInfos');
     Route::get('getFbyMonth', 'App\Http\Controllers\PaiementController@getFactureByMonth');
-
+    Route::get('imp', 'App\Http\Controllers\PaiementController@impaye');
     Route::get('Charts', 'App\Http\Controllers\PaiementController@Charts');
 
 

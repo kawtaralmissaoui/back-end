@@ -111,6 +111,34 @@ class PaiementController extends Controller
 
     }
 
+    public function impaye(Request $reqeust){
+      $currentDate = Carbon::now();
+                
+     
+               
+
+       $fac = $this->getFactureByMonth($reqeust);
+       foreach ($fac as $data) {
+        $date1 = new Carbon($data->mois_paiement);          
+        $date1->addDays(5); 
+        
+         if($data->etat_paiement=="En attente")
+         {
+           
+
+          if($currentDate>=$date1) {$data->etat_paiement="Impayé"; $data->save();  }
+         }
+       }
+       
+       return $fac;
+       
+
+  
+  
+
+
+  }
+
     public function getFactureByMonth(Request $reqeust){
       $date = Carbon::today();
         
