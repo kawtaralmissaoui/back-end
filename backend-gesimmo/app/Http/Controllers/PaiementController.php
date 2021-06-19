@@ -157,10 +157,18 @@ class PaiementController extends Controller
     }
 
     public function Charts(Request $request){
-      $result = DB::select(
+      $paiement = DB::select(
         "SELECT mois_paiement,SUM(montant_recu) as montant FROM
         `factures` WHERE YEAR(NOW())=YEAR(mois_paiement) 
         GROUP BY mois_paiement ;");
-        return $result;
+
+    $charge = DB::select(
+  "SELECT date_paiement,SUM(montant_total) as montant FROM
+  `charges`  WHERE YEAR(NOW())=YEAR(date_paiement) 
+   GROUP BY MONTH(date_paiement) ;");
+        return response()->json([
+          'Paiement' => $paiement,
+          'Charge ' => $charge
+      ], 201);
     }
 }
