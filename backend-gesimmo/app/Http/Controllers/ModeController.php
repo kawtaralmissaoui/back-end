@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Facture;
 use App\Models\Mode;
 use Illuminate\Http\Request;
-use App\Http\Controllers\FactureController;
+use App\Http\Controllers\PaiementController;
 
 class ModeController extends Controller
 {
@@ -113,7 +113,7 @@ class ModeController extends Controller
         //echo $modes->facture->etat_paiement; 
         // echo $modes->etat; 
                //test
-        $t = new FactureController;
+        $t = new PaiementController;
 // Use other controller's method in this controller's method
         $request->id = $modes->facture_id;
         $t->updateFacture($request);
