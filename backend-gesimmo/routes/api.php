@@ -70,6 +70,12 @@ Route::group([
     Route::get('Charts', 'App\Http\Controllers\PaiementController@Charts');
     Route::get('chargeByProp/{id}', 'App\Http\Controllers\ProprietaireController@chargeByProp');
 
+    //Mode :
+    //Mode 
+    Route::post('addM', 'App\Http\Controllers\ModeController@addMode');
+    Route::get('remiseM/{id}', 'App\Http\Controllers\ModeController@RemiseMode');
+    Route::put('updateM/{id}', 'App\Http\Controllers\ModeController@updateMode');
+
 
 
 });

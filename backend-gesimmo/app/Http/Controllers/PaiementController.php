@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\FactureRequest;
 use Illuminate\Http\Request;
 use App\Models\Facture;
+use App\Models\Mode;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\Relance;
@@ -16,28 +17,11 @@ class PaiementController extends Controller
     {
      //   $this->middleware('auth:api', ['except' => ['addPaiement', 'register', 'logout']]);
     }
-    public function  addPaiement(FactureRequest $request)
-    {
-        $Facture = new Facture ();
-        $Facture->date_paiement = $request->date_paiement;
-       // $Facture->etat_paiement = $request->etat_paiement ;
-        $Facture->type = $request->type ;
-        $Facture->loyer_mensuel = $request->loyer_mensuel;
-        $Facture->syndic = $request->syndic;
-        $Facture->taxe = $request->taxe;
-        $Facture->archive = $request->archive;
-        $Facture->nbt_relance = $request->nbt_relance;
-        $Facture->location_id = $request->location_id;
-        $Facture->save();
-        return response()->json([
-            'message' => 'Facture  successfully registed',
-            'Facture ' => $Facture
-        ], 201);
-    }
+    
 /* notification : Nous accusons récéption du paiement de votre loyer pour le mois  --date pour une somme  du --montant */ 
     public function updateFacture(Request $request){
         $facture = Facture::with('location.user')->find($request->id);
-        $montant_recu = $request->montant_recu;
+        $montant_recu = $facture->montant_recu;
 
 
        // $facture->syndic=$request->syndic;
@@ -56,7 +40,10 @@ class PaiementController extends Controller
                 $date1->addDays(5);
                 $date2->addDays(13);
                 $date3->addDays(20);
-                  if(($currentDate=$date1) || ($currentDate=$date2) || ($currentDate=$date3))
+                //changer vers  impayé
+                if($currentDate>=$date1) {$facture->etat_paiement="Impayé";  }
+
+                if(($currentDate->toDateString())==($date1->toDateString()) || ($currentDate->toDateString())==($date2->toDateString()) || ($currentDate->toDateString())==($date3->toDateString()))
                   {// $facture->etat_paiement="Impayé";
                     $facture->nbt_relance = $facture->nbt_relance +1;
                     $facture->nbr_relance_total = $facture->nbr_relance_total + 1;
@@ -75,17 +62,15 @@ class PaiementController extends Controller
                Mail::to($email )->send(new Relance($details));
               
                 }
-                if(($currentDate=$date3) && ($facture->etat_paiement=="Impaye")){
-                  $facture->mois_impaye = $facture->mois_impaye+1;
-                }
+                if($currentDate==$date3) {$facture->mois_impaye = $facture->mois_impaye+1;}
 
                }
            else{
                 $facture->etat_paiement="Payé";
                 $facture->nbt_relance =0;
-                $facture->date_paiement = $request->date_paiement;
-                $facture->mode_paiement = $request->mode_paiement;
-                $facture->montant_recu= $montant_recu;
+               // $facture->date_paiement = $request->date_paiement;
+               // $facture->mode_paiement = $request->mode_paiement;
+               // $facture->montant_recu= $montant_recu;
                 $facture->mois_impaye = 0;
 
                 $name = $facture->location->user->nom ;

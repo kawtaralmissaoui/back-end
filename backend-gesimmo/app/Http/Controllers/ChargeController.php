@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\FactureRequest;
 use Illuminate\Http\Request;
 use App\Models\Charge;
+
 use Illuminate\support\Facades\DB;
 class ChargeController extends Controller
 {

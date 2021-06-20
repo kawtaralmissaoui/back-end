@@ -16,4 +16,8 @@ class Facture extends Model
     {
         return $this->belongsTo(Location::class);
     }
+    public function modes()
+    {
+        return $this->hasMany(Mode::class);
+    }
 }

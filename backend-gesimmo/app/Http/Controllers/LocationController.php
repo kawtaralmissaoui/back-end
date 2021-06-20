@@ -31,12 +31,19 @@ class LocationController extends Controller
         //calculer la durée
         $to = new Carbon($Location->date_entree);
         $from =  new Carbon ($Location->date_sortie);
-        $diff_in_months = $to->diffInMonths($from);
-        $Location->duree = $diff_in_months;
+        //$diff_in_months = $to->diffInMonths($from);
+        $Location->duree = $request->duree;
         $Location->type = $request->type;
         $Location->archive = 0;
+        //ajout caution :
+        if($request->caution == 1 ) {$Location->caution = 1 ;}
+        else {$Location->caution = 0 ;}
+        
+        $Location->nbr_mois_caution = $request->nbr_mois_caution;
+
         $Location->user_id = $request->user_id;
         $Location->bien_id = $request->bien_id;
+
         //calculer le montant 
         $bien = Bien::find( $request->bien_id);
         $Location->montant = $bien->loyer_mensuel+$bien->syndic;
@@ -58,7 +65,7 @@ class LocationController extends Controller
 
        
         $Facture->mois_paiement = $to;
-        $Facture->type = 'paiement' ;
+       // $Facture->type = 'paiement' ;
 
        // $Facture->loyer_mensuel = $bien->loyer_mensuel;
         //$Facture->syndic = $request->syndic;
@@ -121,6 +128,8 @@ class LocationController extends Controller
            
         ], 201);
     }
+
+
     public function getLocationActif()
     {
         return  Location::orderBy('created_at', 'desc')->where('archive', '=', '0')->get();

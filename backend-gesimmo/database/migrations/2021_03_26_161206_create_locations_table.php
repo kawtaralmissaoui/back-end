@@ -24,6 +24,8 @@ class CreateLocationsTable extends Migration
             $table->foreignId('user_id')->constrained()->onUpdate('cascade');
             $table->foreignId('bien_id')->constrained()->onUpdate('cascade');
             $table->string('archive')->nullable();
+            $table->integer('caution')->nullable();
+            $table->integer('nbr_mois_caution')->nullable();
             $table->timestamps();
         });
     }
