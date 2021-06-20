@@ -210,6 +210,12 @@ class ProprietaireController extends Controller
             //$not->markAsRead();
         
     }
+    public function chargeByProp($id){
+        $charges = DB::select(
+            "SELECT c.* FROM `users` u,`biens` b,`charges` c 
+         WHERE u.id=b.user_id and u.id='$id' and c.bien_id=b.id; ");
+        return $charges;
+    }
 
 
 
