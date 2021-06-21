@@ -71,11 +71,12 @@ Route::group([
     Route::get('chargeByProp/{id}', 'App\Http\Controllers\ProprietaireController@chargeByProp');
 
     //Mode :
-    //Mode 
+    //Mode
     Route::post('addM', 'App\Http\Controllers\ModeController@addMode');
     Route::get('remiseM/{id}', 'App\Http\Controllers\ModeController@RemiseMode');
     Route::put('updateM/{id}', 'App\Http\Controllers\ModeController@updateMode');
 
-
+    Route::get('location/{idu}', 'App\Http\Controllers\ProprietaireController@location');
+    Route::get('biens/{idu}', 'App\Http\Controllers\ProprietaireController@biens');
 
 });

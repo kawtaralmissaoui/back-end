@@ -58,7 +58,7 @@ class ProprietaireController extends Controller
         $user->save();
         if ($request->hasFile('doc'))
         {
-           
+
             $file = $request->file('doc');
             $fileExtention=$file->extension();
             $filename  = $file->getClientOriginalName();
@@ -83,8 +83,8 @@ class ProprietaireController extends Controller
 
         Mail::to($request->email)->send(new TestMail($details));
         return "envoye";
-        
-     
+
+
         return response()->json([
             'message' => 'proprietaire successfully registed',
             'user' => $user
@@ -144,6 +144,27 @@ class ProprietaireController extends Controller
         return $test;
     }
 
+    function location($idu)
+    {
+        return DB::table('users')
+            ->join('locations', 'user_id', "=", 'locations.user_id')
+            ->select('locations.*')
+            ->where('locations.user_id', $idu)
+            ->where('users.id', $idu)
+            ->get();
+    }
+
+    function biens($idu)
+    {
+        /*return DB::table('users')
+        ->join('locations', 'user_id', "=", 'locations.user_id')
+        ->join('biens', 'id', "=", 'biens.id')
+        ->select('biens.id')
+        ->where('biens', 'id', "=", 'locations.bien_id')
+        ->where('users.id', $idu)
+        ->get();*/
+    }
+
     public function mailChangerPass(Request $request)
     {
         $input = $request->email;
@@ -200,19 +221,19 @@ class ProprietaireController extends Controller
         $user=\App\Models\User::find($id);
      $notif = $user->unreadnotifications;
      return response()->json([
-        
+
         'notif' =>  $notif
     ], 201);
-        
+
         //    return $not->data['data'];
             //echo $not->data['data'];
             //var_dump($not->data);
             //$not->markAsRead();
-        
+
     }
     public function chargeByProp($id){
         $charges = DB::select(
-            "SELECT c.* FROM `users` u,`biens` b,`charges` c 
+            "SELECT c.* FROM `users` u,`biens` b,`charges` c
          WHERE u.id=b.user_id and u.id='$id' and c.bien_id=b.id; ");
         return $charges;
     }
