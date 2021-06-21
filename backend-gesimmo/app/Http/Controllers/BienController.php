@@ -65,7 +65,7 @@ class BienController extends Controller
     }
     public function getBienArchive()
     {
-        return  Bien::all()->where('archive', '=', '1');
+        return  Bien::with('user')->get()->where('archive', '=', '1');
     }
     public function getBienLibre()
     {
