@@ -20,8 +20,8 @@ class ModeController extends Controller
         $Mode->banque = $request->banque;
         $Mode->date = $request->date;
         $Mode->execution =0;
-        if($request->mode_paiement=="cheque"){ $Mode->etat = "En attente d'encaissement";}
-        if($request->mode_paiement=="virement"){ $Mode->etat = "En attente de virement";}
+        if($request->mode_paiement=="cheque"){ $Mode->etat = "En cours de traitement";}
+        if($request->mode_paiement=="virement"){ $Mode->etat = "En cours de traitement";}
         if($request->mode_paiement=="espece"){ $Mode->etat = "reglé";}
         if($request->mode_paiement=="caution"){ $Mode->etat = "appliqué";}
         $Mode->description = $request->description;
@@ -33,8 +33,12 @@ class ModeController extends Controller
         $facture = Facture::with('location')->find($Mode->facture_id);
         if($Mode->mode_paiement=="espece")
             { 
+                $Mode->numero_operation = "****" ;
+                 $Mode->banque = "****" ;
+                 $Mode->numero_remise = "****" ;
                 $Mode->execution=1;
                 $facture->montant_recu = $facture->montant_recu + $Mode->montant;
+                $facture->date_paiement = $Mode->date;
                 //$facture->save();
             }
         if($Mode->mode_paiement=="caution")
@@ -49,8 +53,13 @@ class ModeController extends Controller
                     if ($facture->location->nbr_mois_caution > 0) {
                          $Mode->montant = $facture->montant_total;
                          $Mode->execution=1;
+
+                         $Mode->numero_operation = "****" ;
+                         $Mode->banque = "****" ;
+                         $Mode->numero_remise = "****" ;
                          
                         $facture->montant_recu = $facture->montant_recu + $Mode->montant;
+                        $facture->date_paiement = $Mode->date;
                         // $facture->save();
                          $facture->location->nbr_mois_caution = $facture->location->nbr_mois_caution -1 ;
                         // $facture->location->save();
@@ -120,6 +129,36 @@ class ModeController extends Controller
         
 
         
+
+    }
+
+    public function getModesFacture(Request $request){
+        $id = $request->id;
+        //echo $id;
+        $modes = Mode::all()->where('facture_id', '=', $id);
+        //$modes = Mode::where('facture_id', '=', $id)->get();
+        if ($modes->isEmpty())  {
+            return response()->json([
+                'error' => "Aucun paiement n'est fait  ",
+            ], 401);
+        }
+       
+
+        return $modes;
+
+
+    }
+      public function getSum(Request $request){
+        $id = $request->id;
+        //echo $id;
+        $modes = Mode::all()->where('facture_id', '=', $id);
+        //$modes = Mode::where('facture_id', '=', $id)->get();
+        $sum1 = Mode::where('etat', '=', 'En cours de traitement')->where('facture_id', '=', $id)->sum('montant');
+        //$sum2 = Mode::where('etat', '=', 'En attente de virement')->where('facture_id', '=', $id)->sum('montant');
+       // echo $sum1+$sum2;
+
+        return $sum1;
+
 
     }
 }

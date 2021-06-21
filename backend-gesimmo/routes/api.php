@@ -79,4 +79,8 @@ Route::group([
     Route::get('location/{idu}', 'App\Http\Controllers\ProprietaireController@location');
     Route::get('biens/{idu}', 'App\Http\Controllers\ProprietaireController@biens');
 
+    //Mode nouveau
+    Route::get('getMF/{id}', 'App\Http\Controllers\ModeController@getModesFacture');
+    Route::get('getS/{id}', 'App\Http\Controllers\ModeController@getSum');
+
 });
