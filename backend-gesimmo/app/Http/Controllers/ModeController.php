@@ -68,7 +68,7 @@ class ModeController extends Controller
         $facture->save();
         $facture->location->save();
             //test
-        $t = new FactureController;
+        $t = new PaiementController;
 // Use other controller's method in this controller's method
         $request->id = $Mode->facture_id;
         $t->updateFacture($request);
