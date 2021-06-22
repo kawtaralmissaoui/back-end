@@ -28,6 +28,8 @@ class SocieteController extends Controller
         $user->adresse = $request->adresse;
         $user->telephone = $request->telephone;
         $user->RC = $request->RC;
+        $user->ICE = $request->ICE;
+        $user->activite = $request->activite;
         $user->archive = 0;
         $user->type = 1;
         $password = Str::random(8);
@@ -94,6 +96,8 @@ class SocieteController extends Controller
         $user->adresse = $request->adresse;
         $user->telephone = $request->telephone;
         $user->RC = $request->RC;
+        $user->ICE = $request->ICE;
+        $user->activite = $request->activite;
         $user->save();
         return response()->json([
             'message' => 'proprietaire morale has succesfully updated ',
