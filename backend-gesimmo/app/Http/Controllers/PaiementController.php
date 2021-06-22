@@ -9,16 +9,18 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\Relance;
 use App\Mail\Paiement;
+use App\Notifications\notifyPaiement;
 use Illuminate\support\Facades\DB;
-
+use Illuminate\Support\Facades\Notification;
+use App\Models\User;
 class PaiementController extends Controller
 {
     public function __construct()
     {
      //   $this->middleware('auth:api', ['except' => ['addPaiement', 'register', 'logout']]);
     }
-    
-/* notification : Nous accusons récéption du paiement de votre loyer pour le mois  --date pour une somme  du --montant */ 
+
+/* notification : Nous accusons récéption du paiement de votre loyer pour le mois  --date pour une somme  du --montant */
     public function updateFacture(Request $request){
         $facture = Facture::with('location.user')->find($request->id);
         $montant_recu = $facture->montant_recu;
@@ -58,9 +60,9 @@ class PaiementController extends Controller
                         'id'=>$facture->id,
                         'montant' => $facture->montant_total+$facture->montant_total*$facture->nbt_relance
                     ];
-            
+
                Mail::to($email )->send(new Relance($details));
-              
+
                 }
                 if($currentDate==$date3) {$facture->mois_impaye = $facture->mois_impaye+1;}
 
@@ -81,10 +83,13 @@ class PaiementController extends Controller
                     'id'=>$facture->id,
                   //  'montant' => $facture->montant_total
                 ];
-        
+
            Mail::to($email )->send(new Paiement($details));
                }
                $facture->save();
+
+               $user=user::find($facture->location->user->id);
+               Notification::send($user , new notifyPaiement($facture));
 
 
 
@@ -98,35 +103,35 @@ class PaiementController extends Controller
 
     public function impaye(Request $reqeust){
       $currentDate = Carbon::now();
-                
-     
-               
+
+
+
 
        $fac = $this->getFactureByMonth($reqeust);
        foreach ($fac as $data) {
-        $date1 = new Carbon($data->mois_paiement);          
-        $date1->addDays(5); 
-        
+        $date1 = new Carbon($data->mois_paiement);
+        $date1->addDays(5);
+
          if($data->etat_paiement=="En attente")
          {
-           
+
 
           if($currentDate>=$date1) {$data->etat_paiement="Impayé"; $data->save();  }
          }
        }
-       
-       return $fac;
-       
 
-  
-  
+       return $fac;
+
+
+
+
 
 
   }
 
     public function getFactureByMonth(Request $reqeust){
       $date = Carbon::today();
-        
+
       $date->modify('first day of this month');
       $date=Carbon::parse($date)->toDateString();
 
@@ -144,12 +149,12 @@ class PaiementController extends Controller
     public function Charts(Request $request){
       $paiement = DB::select(
         "SELECT mois_paiement,SUM(montant_recu) as montant FROM
-        `factures` WHERE YEAR(NOW())=YEAR(mois_paiement) 
+        `factures` WHERE YEAR(NOW())=YEAR(mois_paiement)
         GROUP BY mois_paiement ;");
 
     $charge = DB::select(
   "SELECT date_paiement,SUM(montant_total) as montant FROM
-  `charges`  WHERE YEAR(NOW())=YEAR(date_paiement) 
+  `charges`  WHERE YEAR(NOW())=YEAR(date_paiement)
    GROUP BY MONTH(date_paiement) ;");
         return response()->json([
           'Paiement' => $paiement,
