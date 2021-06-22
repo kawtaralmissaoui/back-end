@@ -156,13 +156,18 @@ class ProprietaireController extends Controller
 
     function biens($idu)
     {
-        /*return DB::table('users')
-        ->join('locations', 'user_id', "=", 'locations.user_id')
-        ->join('biens', 'id', "=", 'biens.id')
-        ->select('biens.id')
-        ->where('biens', 'id', "=", 'locations.bien_id')
-        ->where('users.id', $idu)
-        ->get();*/
+        $bien = DB::select(
+        "SELECT b.*,u.id FROM `locations` l,`biens` b,`users` u
+        WHERE l.user_id=$idu and l.bien_id=b.id and l.user_id=u.id; ");
+        return $bien;
+    }
+
+    function proprietaire($idu)
+    {
+        $bien = DB::select(
+        "SELECT u.*,u.id FROM `locations` l,`biens` b,`users` u
+        WHERE l.user_id=$idu and l.bien_id=b.id and l.user_id=u.id; ");
+        return $bien;
     }
 
     public function mailChangerPass(Request $request)
