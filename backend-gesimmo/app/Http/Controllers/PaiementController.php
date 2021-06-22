@@ -85,11 +85,13 @@ class PaiementController extends Controller
                 ];
 
            Mail::to($email )->send(new Paiement($details));
+
+           $fact=Facture::with('location.user')->find($request->id);
+           $id=$fact->location->user;
+           Notification::send($id , new notifyPaiement($facture));
                }
                $facture->save();
-               $fact=Facture::with('location.user')->find($facture->id);
-               $id=$fact->location->user_id;
-               Notification::send($id , new notifyPaiement($facture));
+            
     }
 
 
