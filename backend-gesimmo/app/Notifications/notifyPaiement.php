@@ -42,7 +42,7 @@ class notifyPaiement extends Notification
     public function toDatabase($notifiable)
     {
         return [
-            'data'=>'Nous accusons récéption du paiement de votre loyer pour le mois  --date pour une somme  du --montant .'
+            'data'=>'Nous accusons réception du paiement de votre loyer pour le mois  --date pour une somme  du --montant .'
         ];
         //' Added by '.auth()->user()->nom
     }
