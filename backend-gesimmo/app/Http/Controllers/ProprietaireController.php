@@ -170,6 +170,16 @@ class ProprietaireController extends Controller
         return $bien;
     }
 
+    function locataire($idu)
+    {
+        $bien = DB::select(
+        "SELECT u.*FROM `locations` l,`biens` b,`users` u
+        WHERE b.user_id=$idu and b.id=l.bien_id and l.user_id=u.id; ");
+        return $bien;
+    }
+
+
+
     public function mailChangerPass(Request $request)
     {
         $input = $request->email;
