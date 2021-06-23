@@ -252,6 +252,12 @@ class ProprietaireController extends Controller
          WHERE u.id=b.user_id and u.id='$id' and c.bien_id=b.id; ");
         return $charges;
     }
+    //Recuperer ts les biens
+    public function getBien()
+    {
+        return  Bien::all();
+    }
+
 
 
 

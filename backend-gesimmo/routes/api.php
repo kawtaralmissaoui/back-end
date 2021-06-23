@@ -84,4 +84,13 @@ Route::group([
     Route::get('getMF/{id}', 'App\Http\Controllers\ModeController@getModesFacture');
     Route::get('getS/{id}', 'App\Http\Controllers\ModeController@getSum');
 
+
+    //nouveau 
+    Route::get('getPL/{id}', 'App\Http\Controllers\PaiementController@getPaiemenyByLocataire');
+    Route::get('getPB/{id}', 'App\Http\Controllers\PaiementController@getPaiemenyByBien');
+    Route::get('getPD/{d}', 'App\Http\Controllers\PaiementControllergetFM');
+    Route::get('getPE/{d}', 'App\Http\Controllers\PaiementController@getFEtat');
+    Route::get('getB', 'App\Http\Controllers\ProprietaireController@getBien');
+
+
 });

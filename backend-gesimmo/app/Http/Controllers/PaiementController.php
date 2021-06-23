@@ -5,6 +5,7 @@ use App\Http\Requests\FactureRequest;
 use Illuminate\Http\Request;
 use App\Models\Facture;
 use App\Models\Mode;
+use App\Models\Location;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\Relance;
@@ -160,4 +161,96 @@ class PaiementController extends Controller
           'Charge ' => $charge
       ], 201);
     }
+
+
+    public function getPaiemenyByLocataire(Request $request){
+      $id = $request->id;
+      $collection = collect();
+     // Facture::with('location.bien.user')->get();
+     /// $data[];
+     // $r[]= null;
+    //  $myJSON = json_encode($data)
+    //echo $id;
+        // $user = User::where('id', '=', $id)->with('locations.factures')->get();
+        // echo $user->locations;
+
+         $loc =  Location::with('factures')->where('user_id', '=', $id)->get();
+      foreach ($loc as $l) {
+      //  $r = array_merge($r, $l->factures);
+     //   $r = $r +  $l->factures;
+     //   echo $r;
+        //$data = $data.push($l->facture);
+        //return $l->factures;
+        //print_r($l->factures);
+        $collection->push($l->factures);
+     }
+   
+    // return $l->factures;
+    $p = DB::select(
+       "SELECT f.* FROM  locations l, factures f  where l.id = f.location_id  and l.user_id = '$id'"
+     );
+     return json_encode($p);
+    /* $leagues = DB::table('factures')
+    //->select('factures.mois_paiement')
+    ->join('locations', 'locations.id', '=', 'factures.location_id')
+    ->where('locations.user_id', $id)
+    ->all();
+    //return $leagues;*/
+
+      
+      //return $loc;
+      //return Facture::with('location.bien.user', 'location.user')->find($request->id);
+       
+
+
+    
+}
+     public function getPaiemenyByBien(Request $request){
+      $id = $request->id;
+   
+    
+    // return $l->factures;
+    $p = DB::select(
+       "SELECT f.* FROM  locations l, factures f  where l.id = f.location_id  and l.bien_id = '$id'"
+     );
+     return json_encode($p);
+   
+       
+
+
+    
+}
+public function getFM($d){
+       
+  //  $date->modify('first day of month');
+   // $date=Carbon::parse($date)->toDateString();
+    
+    $to = new Carbon($d);
+    $to->modify('first day of  this month');
+    $to=Carbon::parse($to)->toDateString();
+
+   // return Facture::all()->where('type', '=', 'loyer');
+ //  return  Facture::all()->where('date_paiement', '=', $date);
+ return Facture::with('location.bien.user', 'location.user')->where('mois_paiement', '=', $to)->get();
+ /*return response()->json([
+    'message' => 'Facture  successfully registed',
+    'facture ' => $facture
+], 201);*/
+  // echo $facture->location;
+
+
+
+
+}
+public function getFEtat($d){
+    
+
+//echo $d;
+return Facture::with('location.bien.user', 'location.user')->where('etat_paiement', '=', $d)->get();
+
+
+
+
+
+}
 }
