@@ -114,4 +114,12 @@ class LocphController extends Controller
         WHERE l.user_id=$idu and l.bien_id=b.id and b.user_id=u.id; ");
         return $bien;
     }
+
+    function paloc($idu)
+    {
+        $paiement = DB::select(
+        "SELECT f.*,l.identifiant FROM `users` u,`locations` l,`factures` f
+        WHERE l.user_id=$idu and l.id=f.location_id ; ");
+        return $paiement;
+    }
 }

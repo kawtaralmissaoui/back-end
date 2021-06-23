@@ -80,6 +80,9 @@ Route::group([
     Route::get('biens/{idu}', 'App\Http\Controllers\ProprietaireController@biens');
     Route::get('locataire/{idu}', 'App\Http\Controllers\ProprietaireController@locataire');
     Route::get('proprietaire/{idu}', 'App\Http\Controllers\LocphController@proprietaire');
+    Route::get('paloc/{idu}', 'App\Http\Controllers\LocphController@paloc');
+    Route::get('paipro/{idu}', 'App\Http\Controllers\ProprietaireController@paipro');
+
     //Mode nouveau
     Route::get('getMF/{id}', 'App\Http\Controllers\ModeController@getModesFacture');
     Route::get('getS/{id}', 'App\Http\Controllers\ModeController@getSum');

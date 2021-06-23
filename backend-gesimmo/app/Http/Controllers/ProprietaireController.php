@@ -178,6 +178,14 @@ class ProprietaireController extends Controller
         return $bien;
     }
 
+    function paipro($idu)
+    {
+        $bien = DB::select(
+        "SELECT f.*FROM `locations` l,`biens` b,`factures` f
+        WHERE b.user_id=$idu and b.id=l.bien_id and l.id=f.location_id; ");
+        return $bien;
+    }
+
 
 
     public function mailChangerPass(Request $request)
