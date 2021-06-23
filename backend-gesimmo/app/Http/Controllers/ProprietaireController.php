@@ -181,9 +181,17 @@ class ProprietaireController extends Controller
     function paipro($idu)
     {
         $bien = DB::select(
-        "SELECT DISTINCT(f.id), f.*FROM `locations` l,`biens` b,`factures` f
+        "SELECT DISTINCT(f.id), f.* , l.identifiant FROM `locations` l,`biens` b,`factures` f
         WHERE b.user_id=$idu and b.id=l.bien_id and l.id=f.location_id; ");
         return $bien;
+    }
+
+    function bilan_prop($id){
+        $bilan = DB::select(
+            "SELECT mois_paiement,SUM(montant_recu) as montant FROM biens b, locations l, factures f
+            WHERE b.user_id='$id' and b.id=l.bien_id and l.id=f.location_id and 
+            YEAR(NOW())=YEAR(mois_paiement) GROUP BY mois_paiement; ");
+            return $bilan;
     }
 
 
@@ -256,7 +264,7 @@ class ProprietaireController extends Controller
     }
     public function chargeByProp($id){
         $charges = DB::select(
-            "SELECT DISTINCT(c.id) c.* FROM `users` u,`biens` b,`charges` c
+            "SELECT DISTINCT(c.id), c.* FROM `users` u,`biens` b,`charges` c
          WHERE u.id=b.user_id and u.id='$id' and c.bien_id=b.id; ");
         return $charges;
     }

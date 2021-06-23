@@ -82,6 +82,7 @@ Route::group([
     Route::get('proprietaire/{idu}', 'App\Http\Controllers\LocphController@proprietaire');
     Route::get('paloc/{idu}', 'App\Http\Controllers\LocphController@paloc');
     Route::get('paipro/{idu}', 'App\Http\Controllers\ProprietaireController@paipro');
+    Route::get('bilan_prop/{idu}', 'App\Http\Controllers\ProprietaireController@bilan_prop');
 
     //Mode nouveau
     Route::get('getMF/{id}', 'App\Http\Controllers\ModeController@getModesFacture');
