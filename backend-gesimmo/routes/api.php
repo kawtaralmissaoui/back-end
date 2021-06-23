@@ -97,6 +97,7 @@ Route::group([
     Route::get('getB', 'App\Http\Controllers\ProprietaireController@getBien');
 
     Route::get('getModeI/{id}', 'App\Http\Controllers\PaiementController@getModeInfo');
+    Route::put('annuler/{id}', 'ModeController@annuler');
 
 
 });

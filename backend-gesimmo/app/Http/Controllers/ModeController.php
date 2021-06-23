@@ -168,5 +168,32 @@ class ModeController extends Controller
    return Mode::find($id);
 
   }
+  public function annuler(Request $request){
+    $m = Mode::find($request->id);
+    
+    $m->etat = "Annulé";
+    $m->execution = 0;
+    $m->save();
+
+    $f = Facture::find( $m->facture_id);
+    
+     $f->montant_recu = $f->montant_recu - $m->montant;
+     $f->save();
+     //$FacController = new FactureController();
+    // $FacController->updateFacture($request);
+     
+
+     //echo $modes->facture->etat_paiement; 
+     // echo $modes->etat; 
+            //test
+     $t = new FactureController;
+// Use other controller's method in this controller's method
+     $request->id = $m->facture_id;
+     $t->updateFacture($request);
+     
+
+
+
+ }
 }
 
