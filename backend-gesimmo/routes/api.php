@@ -88,10 +88,10 @@ Route::group([
     Route::get('getS/{id}', 'App\Http\Controllers\ModeController@getSum');
 
 
-    //nouveau 
+    //nouveau
     Route::get('getPL/{id}', 'App\Http\Controllers\PaiementController@getPaiemenyByLocataire');
     Route::get('getPB/{id}', 'App\Http\Controllers\PaiementController@getPaiemenyByBien');
-    Route::get('getPD/{d}', 'App\Http\Controllers\PaiementControllergetFM');
+    Route::get('getPD/{d}', 'App\Http\Controllers\PaiementController@getFM');
     Route::get('getPE/{d}', 'App\Http\Controllers\PaiementController@getFEtat');
     Route::get('getB', 'App\Http\Controllers\ProprietaireController@getBien');
 
