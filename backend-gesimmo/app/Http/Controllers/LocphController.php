@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Support\Str;
 use App\Mail\TestMail;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\support\Facades\DB;
 class LocphController extends Controller
 {
     public function __construct()
@@ -46,7 +47,7 @@ class LocphController extends Controller
         $user->save();
         if ($request->hasFile('doc'))
         {
-           
+
             $file = $request->file('doc');
             $fileExtention=$file->extension();
             $filename  = $file->getClientOriginalName();
@@ -104,5 +105,13 @@ class LocphController extends Controller
         return response()->json([
             'message' => 'user archive',
         ], 201);
+    }
+
+    function proprietaire($idu)
+    {
+        $bien = DB::select(
+        "SELECT DISTINCT (u.id),u.*FROM `locations` l,`biens` b,`users` u
+        WHERE l.user_id=$idu and l.bien_id=b.id and b.user_id=u.id; ");
+        return $bien;
     }
 }
