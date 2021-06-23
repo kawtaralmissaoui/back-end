@@ -14,7 +14,7 @@ use App\Mail\ChangerPass;
 use Illuminate\Notifications\Events\NotificationSent;
 use Illuminate\Notifications\Notification;
 use Illuminate\Support\Facades\Mail;
-
+use App\Models\Bien;
 use Illuminate\support\Facades\DB;
 use Illuminate\support\Facades\Auth;
 class ProprietaireController extends Controller
