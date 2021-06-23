@@ -118,7 +118,7 @@ class LocphController extends Controller
     function paloc($idu)
     {
         $paiement = DB::select(
-        "SELECT f.*,l.identifiant FROM `users` u,`locations` l,`factures` f
+        "SELECT DISTINCT(f.id), f.*,l.identifiant FROM `users` u,`locations` l,`factures` f
         WHERE l.user_id=$idu and l.id=f.location_id ; ");
         return $paiement;
     }

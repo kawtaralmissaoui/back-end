@@ -157,7 +157,7 @@ class ProprietaireController extends Controller
     function biens($idu)
     {
         $bien = DB::select(
-        "SELECT b.*,u.id FROM `locations` l,`biens` b,`users` u
+        "SELECT DISTINCT(b.id), b.*,u.id FROM `locations` l,`biens` b,`users` u
         WHERE l.user_id=$idu and l.bien_id=b.id and l.user_id=u.id; ");
         return $bien;
     }
@@ -165,7 +165,7 @@ class ProprietaireController extends Controller
     function proprietaire($idu)
     {
         $bien = DB::select(
-        "SELECT u.*,u.id FROM `locations` l,`biens` b,`users` u
+        "SELECT DISTINCT(u.id), u.*,u.id FROM `locations` l,`biens` b,`users` u
         WHERE l.user_id=$idu and l.bien_id=b.id and l.user_id=u.id; ");
         return $bien;
     }
@@ -173,7 +173,7 @@ class ProprietaireController extends Controller
     function locataire($idu)
     {
         $bien = DB::select(
-        "SELECT u.*FROM `locations` l,`biens` b,`users` u
+        "SELECT DISTINCT(u.id), u.*FROM `locations` l,`biens` b,`users` u
         WHERE b.user_id=$idu and b.id=l.bien_id and l.user_id=u.id; ");
         return $bien;
     }
@@ -181,7 +181,7 @@ class ProprietaireController extends Controller
     function paipro($idu)
     {
         $bien = DB::select(
-        "SELECT f.*FROM `locations` l,`biens` b,`factures` f
+        "SELECT DISTINCT(f.id), f.*FROM `locations` l,`biens` b,`factures` f
         WHERE b.user_id=$idu and b.id=l.bien_id and l.id=f.location_id; ");
         return $bien;
     }
@@ -256,7 +256,7 @@ class ProprietaireController extends Controller
     }
     public function chargeByProp($id){
         $charges = DB::select(
-            "SELECT c.* FROM `users` u,`biens` b,`charges` c
+            "SELECT DISTINCT(c.id) c.* FROM `users` u,`biens` b,`charges` c
          WHERE u.id=b.user_id and u.id='$id' and c.bien_id=b.id; ");
         return $charges;
     }
