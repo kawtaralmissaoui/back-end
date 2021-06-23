@@ -161,5 +161,12 @@ class ModeController extends Controller
 
 
     }
+
+    public function getModeInfo(Request $request)
+  {
+    $id = $request->id;
+   return Mode::find($id);
+
+  }
 }
 
