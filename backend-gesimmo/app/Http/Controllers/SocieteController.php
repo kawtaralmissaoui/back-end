@@ -21,7 +21,7 @@ class SocieteController extends Controller
         $user->nom = $request->nom;
         $user->prenom = $request->prenom;
         $user->nom_societe = $request->nom_societe;
-        $user->statut_societe = $request->statut_societe;
+        //$user->statut_societe = $request->statut_societe;
         $user->email = $request->email;
         $user->CIN = $request->CIN;
         $user->role = 'proprietaire';
@@ -91,7 +91,7 @@ class SocieteController extends Controller
         $user->nom = $request->nom;
         $user->prenom = $request->prenom;
         $user->nom_societe = $request->nom_societe;
-        $user->statut_societe = $request->statut_societe;
+        //$user->statut_societe = $request->statut_societe;
         $user->CIN = $request->CIN;
         $user->adresse = $request->adresse;
         $user->telephone = $request->telephone;
