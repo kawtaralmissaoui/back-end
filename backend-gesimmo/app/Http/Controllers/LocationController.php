@@ -144,7 +144,7 @@ class LocationController extends Controller
     }
     public function getlocationById($id)
     {
-        $Location =  Location::find($id);
+        $Location =  Location::with('user','bien')->find($id);
         return $Location;
     }
     public function archiverLocation($id)
@@ -190,5 +190,15 @@ class LocationController extends Controller
             ->get();
 
         return $test;
+    }
+    public function searchLocation($search)
+    {
+        $location=DB::table('locations')
+        ->where('type','like','%'.$search.'%')
+        ->orwhere('date_entree','like','%'.$search.'%')
+        ->orwhere('date_sortie','like','%'.$search.'%')
+        ->orwhere('montant','like','%'.$search.'%')
+        ->get();
+        return $location;
     }
 }

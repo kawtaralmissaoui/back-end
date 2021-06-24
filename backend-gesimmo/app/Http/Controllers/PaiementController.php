@@ -166,44 +166,11 @@ class PaiementController extends Controller
     public function getPaiemenyByLocataire(Request $request){
       $id = $request->id;
       $collection = collect();
-     // Facture::with('location.bien.user')->get();
-     /// $data[];
-     // $r[]= null;
-    //  $myJSON = json_encode($data)
-    //echo $id;
-        // $user = User::where('id', '=', $id)->with('locations.factures')->get();
-        // echo $user->locations;
 
-         $loc =  Location::with('factures')->where('user_id', '=', $id)->get();
-      foreach ($loc as $l) {
-      //  $r = array_merge($r, $l->factures);
-     //   $r = $r +  $l->factures;
-     //   echo $r;
-        //$data = $data.push($l->facture);
-        //return $l->factures;
-        //print_r($l->factures);
-        $collection->push($l->factures);
-     }
-   
-    // return $l->factures;
     $p = DB::select(
-       "SELECT f.* FROM  locations l, factures f  where l.id = f.location_id  and l.user_id = '$id'"
+       "SELECT f.*,u.nom,u.prenom,b.adresse FROM  locations l, factures f,users u,biens b where l.id = f.location_id  and l.user_id ='$id' and l.user_id=u.id and b.id=l.bien_id;"
      );
      return json_encode($p);
-    /* $leagues = DB::table('factures')
-    //->select('factures.mois_paiement')
-    ->join('locations', 'locations.id', '=', 'factures.location_id')
-    ->where('locations.user_id', $id)
-    ->all();
-    //return $leagues;*/
-
-      
-      //return $loc;
-      //return Facture::with('location.bien.user', 'location.user')->find($request->id);
-       
-
-
-    
 }
      public function getPaiemenyByBien(Request $request){
       $id = $request->id;
@@ -211,7 +178,8 @@ class PaiementController extends Controller
     
     // return $l->factures;
     $p = DB::select(
-       "SELECT f.* FROM  locations l, factures f  where l.id = f.location_id  and l.bien_id = '$id'"
+       "SELECT f.*,u.nom,u.prenom,b.adresse,b.etage,b.porte FROM locations l, factures f,users u , biens b where l.id = f.location_id  
+       and l.bien_id = '$id' and l.user_id=u.id and l.bien_id=b.id;"
      );
      return json_encode($p);
    
@@ -248,9 +216,16 @@ public function getFEtat($d){
 //echo $d;
 return Facture::with('location.bien.user', 'location.user')->where('etat_paiement', '=', $d)->get();
 
+}
 
-
-
-
+public function bilan($id)
+{
+  $paiement = DB::select(
+    "SELECT f.*,u.nom as nom,u.prenom as prenom FROM `locations` l,`factures` f,
+     `users` u, `biens` b WHERE l.id=f.location_id AND YEAR(NOW())=YEAR(mois_paiement) 
+     AND MONTH(NOW())=MONTH(mois_paiement) 
+    AND l.bien_id=b.id AND l.user_id=u.id AND b.user_id='$id';");
+    return $paiement;
+  
 }
 }

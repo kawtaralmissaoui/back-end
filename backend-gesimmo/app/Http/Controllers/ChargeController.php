@@ -33,7 +33,7 @@ class ChargeController extends Controller
         ], 201);
     }
     public function getchargeById($id){
-        $Charge =  Charge::find($id);
+        $Charge =  Charge::with('bien.user')->find($id);
         return $Charge;
     }
     public function getChargeActif()

@@ -97,7 +97,9 @@ Route::group([
     Route::get('getB', 'App\Http\Controllers\ProprietaireController@getBien');
 
     Route::get('getModeI/{id}', 'App\Http\Controllers\PaiementController@getModeInfo');
-    Route::put('annuler/{id}', 'ModeController@annuler');
+    Route::put('annuler/{id}', 'App\Http\Controllers\ModeController@annuler');
+    Route::get('bilan/{id}', 'App\Http\Controllers\PaiementController@bilan');
 
+    Route::get('searchLocation/{search}', 'App\Http\Controllers\LocationController@searchLocation');
 
 });
