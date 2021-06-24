@@ -40,6 +40,7 @@ class LocationController extends Controller
         else {$Location->caution = 0 ;}
         
         $Location->nbr_mois_caution = $request->nbr_mois_caution;
+        $Location->nbr_mois_impaye = 0;
 
         $Location->user_id = $request->user_id;
         $Location->bien_id = $request->bien_id;

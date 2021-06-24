@@ -26,6 +26,7 @@ class CreateLocationsTable extends Migration
             $table->string('archive')->nullable();
             $table->integer('caution')->nullable();
             $table->integer('nbr_mois_caution')->nullable();
+            $table->integer('nbr_mois_impaye')->nullable();
             $table->timestamps();
         });
     }
