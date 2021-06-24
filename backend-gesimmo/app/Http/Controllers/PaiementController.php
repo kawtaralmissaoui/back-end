@@ -59,13 +59,15 @@ class PaiementController extends Controller
                     $details = [
                         'nom' => $name,
                         'id'=>$facture->id,
-                        'montant' => $facture->montant_total+$facture->montant_total*$facture->nbt_relance
+                        'montant' => $facture->montant_total*$facture->location->nbr_mois_impaye
                     ];
 
                Mail::to($email )->send(new Relance($details));
 
                 }
-                if($currentDate==$date3) {$facture->mois_impaye = $facture->mois_impaye+1;}
+                if(($currentDate>=$date4->toDateString()) && ($facture->mois_impaye == 0)) { $facture->mois_impaye = 1;$facture->location->nbr_mois_impaye = $facture->location->nbr_mois_impaye + 1;
+                  //   echo $facture->location->nbr_mois_impaye ;
+                   }
 
                }
            else{
@@ -74,6 +76,7 @@ class PaiementController extends Controller
                // $facture->date_paiement = $request->date_paiement;
                // $facture->mode_paiement = $request->mode_paiement;
                // $facture->montant_recu= $montant_recu;
+               $facture->location->nbr_mois_impaye = $facture->location->nbr_mois_impaye - $facture->mois_impaye ;
                 $facture->mois_impaye = 0;
 
                 $name = $facture->location->user->nom ;
@@ -100,6 +103,9 @@ class PaiementController extends Controller
         return Facture::all()->where('location_id', '=', 123);
 
     }
+    public function getAllFactures(){
+      return Facture::all();
+    }
 
     public function impaye(Request $reqeust){
       $currentDate = Carbon::now();
@@ -107,7 +113,7 @@ class PaiementController extends Controller
 
 
 
-       $fac = $this->getFactureByMonth($reqeust);
+       /*$fac = $this->getFactureByMonth($reqeust);
        foreach ($fac as $data) {
         $date1 = new Carbon($data->mois_paiement);
         $date1->addDays(5);
@@ -120,7 +126,28 @@ class PaiementController extends Controller
          }
        }
 
-       return $fac;
+       return $fac;*/
+       
+       $fac = $this->getAllFactures();
+       foreach ($fac as $data) 
+       {
+        $date1 = new Carbon($data->mois_paiement);          
+        $date1->addDays(5); 
+        //$test = $data->id;
+        $request->id = $data->id;
+        $this->updateFacture($request);
+        
+         
+           
+
+       //if($currentDate>=$date1) {$data->etat_paiement="Impayé";  $data->save();  }
+         
+         
+       }
+       
+     return $this->getFactureByMonth();
+       
+
 
 
 
@@ -129,7 +156,7 @@ class PaiementController extends Controller
 
   }
 
-    public function getFactureByMonth(Request $reqeust){
+    public function getFactureByMonth(){
       $date = Carbon::today();
 
       $date->modify('first day of this month');

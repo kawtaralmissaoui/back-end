@@ -101,5 +101,6 @@ Route::group([
     Route::get('bilan/{id}', 'App\Http\Controllers\PaiementController@bilan');
 
     Route::get('searchLocation/{search}', 'App\Http\Controllers\LocationController@searchLocation');
+    Route::get('getAllF', 'App\Http\Controllers\PaiementController@getAllFactures');
 
 });
