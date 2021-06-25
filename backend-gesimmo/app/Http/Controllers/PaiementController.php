@@ -40,9 +40,11 @@ class PaiementController extends Controller
                 $date1 = new Carbon($facture->mois_paiement);
                 $date2 = new Carbon($facture->mois_paiement);
                 $date3 = new Carbon($facture->mois_paiement);
+                $date4 = new Carbon($facture->mois_paiement);
                 $date1->addDays(5);
                 $date2->addDays(13);
                 $date3->addDays(20);
+                $date4->addDays(29);
                 //changer vers  impayé
                 if($currentDate>=$date1) {$facture->etat_paiement="Impayé";  }
 
@@ -71,14 +73,14 @@ class PaiementController extends Controller
 
                }
            else{
+              if($facture->etat_paiement=='Impayé' || $facture->etat_paiement=='En attente'){
                 $facture->etat_paiement="Payé";
                 $facture->nbt_relance =0;
                // $facture->date_paiement = $request->date_paiement;
                // $facture->mode_paiement = $request->mode_paiement;
                // $facture->montant_recu= $montant_recu;
-               $facture->location->nbr_mois_impaye = $facture->location->nbr_mois_impaye - $facture->mois_impaye ;
+               $facture->location->nbr_mois_impaye = $facture->location->nbr_mois_impaye - 1 ;
                 $facture->mois_impaye = 0;
-
                 $name = $facture->location->user->nom ;
                 $email = $facture->location->user->email ;
 
@@ -93,13 +95,14 @@ class PaiementController extends Controller
            $fact=Facture::with('location.user')->find($request->id);
            $id=$fact->location->user;
            Notification::send($id , new notifyPaiement($facture));
+              }
                }
                $facture->save();
-            
+               $facture->location->save();
     }
 
 
-    public function getFactureByLocataire(Request $reqeust){
+    public function getFactureByLocataire(Request $request){
         return Facture::all()->where('location_id', '=', 123);
 
     }
@@ -107,12 +110,8 @@ class PaiementController extends Controller
       return Facture::all();
     }
 
-    public function impaye(Request $reqeust){
+    public function impaye(Request $request){
       $currentDate = Carbon::now();
-
-
-
-
        /*$fac = $this->getFactureByMonth($reqeust);
        foreach ($fac as $data) {
         $date1 = new Carbon($data->mois_paiement);
@@ -133,7 +132,7 @@ class PaiementController extends Controller
        {
         $date1 = new Carbon($data->mois_paiement);          
         $date1->addDays(5); 
-        //$test = $data->id;
+       // $test = $data->id;
         $request->id = $data->id;
         $this->updateFacture($request);
         
@@ -195,7 +194,7 @@ class PaiementController extends Controller
       $collection = collect();
 
     $p = DB::select(
-       "SELECT f.*,u.nom,u.prenom,b.adresse FROM  locations l, factures f,users u,biens b where l.id = f.location_id  and l.user_id ='$id' and l.user_id=u.id and b.id=l.bien_id;"
+       "SELECT f.*,u.nom,u.prenom,b.adresse,l.nbr_mois_impaye FROM  locations l, factures f,users u,biens b where l.id = f.location_id  and l.user_id ='$id' and l.user_id=u.id and b.id=l.bien_id;"
      );
      return json_encode($p);
 }
@@ -205,7 +204,7 @@ class PaiementController extends Controller
     
     // return $l->factures;
     $p = DB::select(
-       "SELECT f.*,u.nom,u.prenom,b.adresse,b.etage,b.porte FROM locations l, factures f,users u , biens b where l.id = f.location_id  
+       "SELECT f.*,u.nom,u.prenom,b.adresse,b.etage,b.porte,l.nbr_mois_impaye FROM locations l, factures f,users u , biens b where l.id = f.location_id  
        and l.bien_id = '$id' and l.user_id=u.id and l.bien_id=b.id;"
      );
      return json_encode($p);
@@ -248,10 +247,10 @@ return Facture::with('location.bien.user', 'location.user')->where('etat_paiemen
 public function bilan($id)
 {
   $paiement = DB::select(
-    "SELECT f.*,u.nom as nom,u.prenom as prenom FROM `locations` l,`factures` f,
-     `users` u, `biens` b WHERE l.id=f.location_id AND YEAR(NOW())=YEAR(mois_paiement) 
-     AND MONTH(NOW())=MONTH(mois_paiement) 
-    AND l.bien_id=b.id AND l.user_id=u.id AND b.user_id='$id';");
+    "SELECT f.*,u.nom as nom,u.prenom as prenom,m.numero_operation as num_cheque, m.numero_remise as num_remise
+    FROM `locations` l,`factures` f,
+   `users` u, `biens` b, `modes` m WHERE l.id=f.location_id AND YEAR(NOW())=YEAR(mois_paiement) 
+  AND l.bien_id=b.id AND l.user_id=u.id AND f.id=m.facture_id AND b.user_id='$id' AND etat_paiement='Payé';");
     return $paiement;
   
 }

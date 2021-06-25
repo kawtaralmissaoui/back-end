@@ -186,7 +186,7 @@ class ModeController extends Controller
      //echo $modes->facture->etat_paiement; 
      // echo $modes->etat; 
             //test
-     $t = new FactureController;
+     $t = new PaiementController;
 // Use other controller's method in this controller's method
      $request->id = $m->facture_id;
      $t->updateFacture($request);
